@@ -183,7 +183,38 @@ document.addEventListener("DOMContentLoaded", () => {
       revealBtn.style.display = "none";
     });
   }
+  // ===== Unlock Part 2 (story content on index) =====
+  const storyTrigger = document.getElementById("story-trigger");
+  const storySection = document.getElementById("story-section");
+  const storyVeil = document.getElementById("story-veil");
 
+  function unlockStory() {
+    if (!storySection) return;
+
+    storySection.classList.remove("hidden");
+    requestAnimationFrame(() => {
+      storySection.classList.add("story-visible");
+    });
+
+    if (storyVeil) {
+      storyVeil.classList.add("story-veil-show");
+      setTimeout(() => storyVeil.classList.add("story-veil-hide"), 450);
+    }
+
+    if (storyTrigger) {
+      storyTrigger.textContent = "Part 2 unlocked 💖";
+      storyTrigger.disabled = true;
+    }
+
+    setTimeout(() => {
+      storySection.scrollIntoView({ behavior: "smooth" });
+    }, 140);
+    spawnRandomHearts(6);
+  }
+
+  if (storyTrigger) {
+    storyTrigger.addEventListener("click", unlockStory);
+  }
   // ===== Photo modal (story page) =====
   const photoCards = document.querySelectorAll(".photo-card");
   const photoModal = document.getElementById("photo-modal");
