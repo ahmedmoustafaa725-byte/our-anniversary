@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const introStep3 = document.getElementById("intro-step-3");
   const holdButton = document.getElementById("hold-button");
   const holdFill = document.getElementById("hold-fill");
-  const SECRET_DATE = "05.12.2025"; // your anniversary
+  const SECRET_DATE = "05.12.2024"; // your anniversary
 
   let introTimeout1, introTimeout2;
 
