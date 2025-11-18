@@ -1183,7 +1183,79 @@ header.hero {
 .next-btn {
   margin-top: 8px;
 }
+.next-note {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
 
+.story-section {
+  position: relative;
+  margin-top: 70px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.story-section.story-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.story-body {
+  position: relative;
+  isolation: isolate;
+}
+
+.story-veil {
+  position: absolute;
+  inset: -40px 0 0;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 92, 141, 0.22), transparent 40%),
+    radial-gradient(circle at 80% 40%, rgba(118, 80, 255, 0.25), transparent 35%),
+    rgba(4, 4, 12, 0.8);
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  color: var(--text-main);
+  letter-spacing: 0.2px;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transform: translateY(30px);
+  pointer-events: none;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  z-index: 1;
+}
+
+.story-veil .story-veil-glow {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 55%);
+  filter: blur(10px);
+  opacity: 0.75;
+}
+
+.story-veil .story-veil-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.story-veil.story-veil-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.story-veil.story-veil-hide {
+  opacity: 0;
+  transform: translateY(-40px);
+}
 /* Gallery */
 .gallery-grid {
   display: grid;
