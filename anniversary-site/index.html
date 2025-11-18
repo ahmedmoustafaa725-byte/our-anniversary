@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Our 1st Anniversary – Part 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <!-- Floating hearts background -->
+  <div class="heart-bg" id="heart-bg"></div>
+
+  <!-- Gate / password screen -->
+  <div class="gate" id="gate">
+    <div class="gate-card">
+      <div class="gate-title">For My Semsemayty 💌</div>
+      <div class="gate-sub">
+        This little website is just for us.  
+        Enter our special date to open our memories.
+      </div>
+      <div class="gate-label">Our anniversary (DD.MM.YYYY)</div>
+      <input
+        type="text"
+        id="secret-input"
+        class="gate-input"
+        placeholder="e.g. 05.12.2025"
+      />
+   <div class="gate-row">
+  <span>✨ Small surprise inside (keep your sound on 😉)</span>
+</div>
+
+      <button class="gate-btn" id="enter-btn">Open our story</button>
+      <div class="gate-error" id="gate-error"></div>
+      <div class="gate-hint">
+        Hint: Our first anniversary is on <strong>05.12.2025</strong> 🫶
+      </div>
+    </div>
+  </div>
+
+  <!-- Intro sequence overlay -->
+  <div class="intro-screen hidden" id="intro-screen">
+    <div class="intro-inner">
+      <div class="intro-step intro-step-active" id="intro-step-1">
+        <h1>Hello Mi Amour 🌹</h1>
+        <p>This whole website is only for you.</p>
+      </div>
+      <div class="intro-step" id="intro-step-2">
+        <h1>Happy 1st anniversary, ya Semsemayty 🐥</h1>
+        <p>One year of you, of us, of “Sem & Ahmed”.</p>
+      </div>
+      <div class="intro-step" id="intro-step-3">
+        <h1>Hold here to start our anniversary</h1>
+        <p>When the circle is full, our story begins ✨</p>
+        <div class="hold-wrapper">
+          <button class="hold-button" id="hold-button">
+            <div class="hold-ring">
+              <div class="hold-fill" id="hold-fill"></div>
+            </div>
+            <span>Press &amp; hold</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Music control -->
+  <div class="music-control">
+    <button class="music-btn paused" id="music-btn">
+      <div class="music-dot"></div>
+      <span id="music-label">Play our song</span>
+    </button>
+  </div>
+
+  <!-- Main content -->
+  <main id="main-content" class="hidden">
+    <header class="simple-hero">
+      <div class="simple-hero-inner">
+        <p class="simple-hero-label">Part 1 · How it all started</p>
+        <h1 class="simple-hero-title">Our first messages, our first “us” 💬</h1>
+        <p class="simple-hero-text">
+          After you unlock this page and hold the button, we start from the very beginning:
+          our first chat, the moment everything really began, and the chat that changed my life forever.
+        </p>
+      </div>
+    </header>
+
+    <!-- Chats section -->
+    <section id="chats">
+      <div class="section-inner">
+        <div class="section-label">Chapter 0</div>
+        <h2 class="section-title">Where our story started</h2>
+        <p class="section-sub">
+          Before dates, calls and “bahebk”, there were just messages.  
+          These are the ones that made everything begin.
+        </p>
+
+        <div class="chat-grid">
+          <!-- First chat -->
+          <article class="chat-card">
+            <h3 class="chat-title">Our first chat · 14 June 2022</h3>
+            <p class="chat-sub">
+              The very first time you texted me. You had no idea that this simple message
+              would one day turn into us.
+            </p>
+            <div class="chat-screenshot-frame">
+              <img src="images/chat-first.png" alt="Our first chat screenshot" />
+            </div>
+          </article>
+
+          <!-- Chat where everything began -->
+          <article class="chat-card">
+            <h3 class="chat-title">The chat where everything began</h3>
+            <p class="chat-sub">
+              From simple messages to hearts and voice notes…  
+              this is where things started to feel different.
+            </p>
+            <div class="chat-screenshot-frame">
+              <img src="images/chat-beginning.png" alt="The chat where everything began" />
+            </div>
+          </article>
+
+          <!-- Chat that changed my life -->
+          <article class="chat-card">
+            <h3 class="chat-title">The chat that changed my life</h3>
+            <p class="chat-sub">
+              3:14 AM. I asked a question that would change everything.
+              Your answer still lives in my heart.
+            </p>
+
+            <div class="chat-window">
+              <div class="chat-bubble mine">
+                <span class="chat-name">Ahmed · 3:13 AM</span>
+                <p>Sama ana bahebk ❤️</p>
+              </div>
+              <div class="chat-bubble mine">
+                <span class="chat-name">Ahmed · 3:14 AM</span>
+                <p>Mowaf2a tb2i m3aya ?</p>
+              </div>
+
+              <div class="hidden-messages" id="hidden-messages">
+                <div class="chat-bubble hers">
+                  <span class="chat-name">Sama · 3:14 AM</span>
+                  <p>wna kman bhbk 💕</p>
+                </div>
+                <div class="chat-bubble hers">
+                  <span class="chat-name">Sama · 3:14 AM</span>
+                  <p>mwf2a 🥺❤️</p>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-primary btn-small" id="reveal-chat-btn">
+              Press to complete the chat
+            </button>
+          </article>
+        </div>
+
+        <div class="next-part">
+          <p>Ready for Part 2?</p>
+          <a href="story.html" class="btn-primary next-btn">
+            Continue our anniversary ✨
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Made with <span>love</span> for you.  
+      05.12.2025 · Our first anniversary, not the last. 💫
+    </footer>
+  </main>
+
+  <!-- Background music -->
+  <audio id="bg-music" src="music/our_song.mp3" preload="auto" loop></audio>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
