@@ -10,6 +10,7 @@
 <body>
   <!-- Floating hearts background -->
   <div class="heart-bg" id="heart-bg"></div>
+ <div class="heart-pop-layer" id="heart-pop-layer"></div>
 
   <!-- Gate / password screen -->
   <div class="gate" id="gate">
@@ -127,30 +128,30 @@
               Your answer still lives in my heart.
             </p>
 
-            <div class="chat-window">
-              <div class="chat-bubble mine">
-                <span class="chat-name">Ahmed · 3:13 AM</span>
-                <p>Sama ana bahebk ❤️</p>
-              </div>
-              <div class="chat-bubble mine">
-                <span class="chat-name">Ahmed · 3:14 AM</span>
-                <p>Mowaf2a tb2i m3aya ?</p>
-              </div>
-
-              <div class="hidden-messages" id="hidden-messages">
-                <div class="chat-bubble hers">
-                  <span class="chat-name">Sama · 3:14 AM</span>
-                  <p>wna kman bhbk </p>
+            <div class="chat-window life-chat">
+              <div class="chat-sequence" id="life-chat-sequence">
+                <div class="chat-bubble mine chat-step">
+                  <span class="chat-name">Ahmed · 3:13 AM</span>
+                  <p>Sama ana bahebk </p>
                 </div>
-                <div class="chat-bubble hers">
+                <div class="chat-bubble hers chat-step">
+                  <span class="chat-name">Sama · 3:14 AM</span>
+                 <p>wna kman bhbk </p>
+                </div>
+                <div class="chat-bubble mine chat-step">
+                  <span class="chat-name">Ahmed · 3:14 AM</span>
+                  <p>Mowaf2a tb2i m3aya ?</p>
+                </div>
+   <div class="chat-bubble hers chat-step">
                   <span class="chat-name">Sama · 3:14 AM</span>
                   <p>mwf2aa</p>
                 </div>
               </div>
+                 <small class="chat-sequence-hint">Press the button below to relive each message exactly how it happened.</small>
             </div>
 
-            <button class="btn-primary btn-small" id="reveal-chat-btn">
-              Press to complete the chat
+               <button class="btn-primary btn-small chat-progress-btn" id="chat-sequence-btn">
+              Start the chat
             </button>
           </article>
         </div>
