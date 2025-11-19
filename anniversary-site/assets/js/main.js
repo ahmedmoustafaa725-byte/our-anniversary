@@ -3,6 +3,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   // ===== Floating hearts =====
   const heartBg = document.getElementById("heart-bg");
+    const heartBurstLayer = document.getElementById("heart-pop-layer");
+
   function createHeart() {
     if (!heartBg) return;
     const heart = document.createElement("div");
@@ -16,6 +18,19 @@ document.addEventListener("DOMContentLoaded", () => {
   function spawnRandomHearts(count) {
     for (let i = 0; i < count; i++) {
       setTimeout(createHeart, Math.random() * 2500);
+    }
+  }
+   function launchHeartBurst(count = 34) {
+    if (!heartBurstLayer) return;
+    for (let i = 0; i < count; i++) {
+      const heart = document.createElement("span");
+      heart.className = "pop-heart";
+      heart.style.setProperty("--size", 18 + Math.random() * 16 + "px");
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.top = Math.random() * 100 + "%";
+      heart.style.animationDelay = Math.random() * 0.25 + "s";
+      heartBurstLayer.appendChild(heart);
+      setTimeout(() => heart.remove(), 1600);
     }
   }
   spawnRandomHearts(18);
@@ -175,13 +190,85 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===== Chat reveal (index page) =====
-  const revealBtn = document.getElementById("reveal-chat-btn");
-  const hiddenMessages = document.getElementById("hidden-messages");
-  if (revealBtn && hiddenMessages) {
-    revealBtn.addEventListener("click", () => {
-      hiddenMessages.classList.add("visible");
-      revealBtn.style.display = "none";
+const lifeChatSteps = document.querySelectorAll("#life-chat-sequence .chat-step");
+  const chatSequenceBtn = document.getElementById("chat-sequence-btn");
+  if (lifeChatSteps.length && chatSequenceBtn) {
+    let chatStepIndex = 0;
+    let holdTimer;
+
+    function showCurrentStep(options = {}) {
+      const { skipUpdate = false } = options;
+      if (chatStepIndex >= lifeChatSteps.length) return;
+      lifeChatSteps[chatStepIndex].classList.add("visible");
+      chatStepIndex += 1;
+      if (!skipUpdate) {
+        updateButtonState();
+      }
+    }
+
+    function updateButtonState() {
+      chatSequenceBtn.classList.remove("hold-ready");
+      chatSequenceBtn.classList.remove("holding");
+
+      if (chatStepIndex === 0) {
+        chatSequenceBtn.textContent = "Start the chat";
+        return;
+      }
+
+      if (chatStepIndex >= lifeChatSteps.length) {
+        chatSequenceBtn.textContent = "This moment changed everything 💞";
+        chatSequenceBtn.disabled = true;
+        return;
+      }
+
+      if (chatStepIndex === lifeChatSteps.length - 1) {
+        chatSequenceBtn.classList.add("hold-ready");
+        chatSequenceBtn.textContent = "Hold to hear her answer";
+      } else {
+        chatSequenceBtn.textContent = "Show the next message";
+      }
+    }
+
+    updateButtonState();
+
+    chatSequenceBtn.addEventListener("click", () => {
+      if (chatSequenceBtn.classList.contains("hold-ready")) return;
+      showCurrentStep();
     });
+    
+    function startFinalHold(event) {
+      if (!chatSequenceBtn.classList.contains("hold-ready")) return;
+      event.preventDefault();
+      if (holdTimer) clearTimeout(holdTimer);
+      chatSequenceBtn.classList.add("holding");
+      holdTimer = setTimeout(() => {
+        chatSequenceBtn.classList.remove("holding");
+        chatSequenceBtn.classList.remove("hold-ready");
+        chatSequenceBtn.classList.add("explode");
+        chatSequenceBtn.disabled = true;
+        showCurrentStep({ skipUpdate: true });
+        launchHeartBurst();
+        setTimeout(() => {
+          chatSequenceBtn.classList.add("gone");
+        }, 620);
+      }, 1400);
+    }
+
+    function cancelFinalHold() {
+      if (!chatSequenceBtn.classList.contains("hold-ready")) return;
+      chatSequenceBtn.classList.remove("holding");
+      clearTimeout(holdTimer);
+    }
+
+    chatSequenceBtn.addEventListener("mousedown", startFinalHold);
+    chatSequenceBtn.addEventListener(
+      "touchstart",
+      (event) => startFinalHold(event),
+      { passive: false }
+    );
+    window.addEventListener("mouseup", cancelFinalHold);
+    window.addEventListener("touchend", cancelFinalHold);
+    window.addEventListener("touchcancel", cancelFinalHold);
   }
   // ===== Unlock Part 2 (story content on index) =====
   const storyTrigger = document.getElementById("story-trigger");
