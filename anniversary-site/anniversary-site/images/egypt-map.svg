@@ -1,0 +1,40 @@
+<svg width="900" height="640" viewBox="0 0 900 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sand" x1="180" y1="60" x2="620" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e6cda1" />
+      <stop offset="0.5" stop-color="#d1b582" />
+      <stop offset="1" stop-color="#b79a6a" />
+    </linearGradient>
+    <linearGradient id="shore" x1="120" y1="40" x2="220" y2="200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3fb7ff" stop-opacity="0.9" />
+      <stop offset="1" stop-color="#3fb7ff" stop-opacity="0.2" />
+    </linearGradient>
+    <linearGradient id="sinai" x1="640" y1="120" x2="790" y2="440" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#d9c08b" />
+      <stop offset="1" stop-color="#c4a974" />
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="900" height="640" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="8" />
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.18 0" />
+      <feBlend in="SourceGraphic" in2="blur" mode="normal" />
+    </filter>
+  </defs>
+
+  <!-- Mediterranean Sea glow -->
+  <path d="M90 62C200 30 340 30 510 62C610 82 670 110 690 130C650 150 580 150 460 136C320 120 210 128 130 150C110 130 100 100 90 62Z" fill="url(#shore)" />
+
+  <!-- Egypt mainland -->
+  <path filter="url(#shadow)" d="M140 90L560 90L705 150L820 250L770 320L835 410L760 480L640 560L220 560L160 480L150 360L126 270L140 90Z" fill="url(#sand)" stroke="#ad8a55" stroke-width="3" stroke-linejoin="round" />
+
+  <!-- Sinai peninsula overlay -->
+  <path d="M560 90L705 150L820 250L770 320L640 560L500 520L640 260L560 90Z" fill="url(#sinai)" opacity="0.9" stroke="#ad8a55" stroke-width="2" />
+
+  <!-- Nile River -->
+  <path d="M470 92C460 140 450 184 430 210C380 280 360 330 350 420C340 500 310 540 270 568" stroke="#38b6ff" stroke-width="8" stroke-linecap="round" />
+  <path d="M420 238C448 230 468 240 484 258C510 286 520 320 520 360" stroke="#38b6ff" stroke-width="6" stroke-linecap="round" />
+  <path d="M370 328C396 326 422 340 430 368C436 392 432 414 420 440" stroke="#38b6ff" stroke-width="5" stroke-linecap="round" />
+
+  <!-- Delta greenery suggestion -->
+  <path d="M360 130C460 150 520 190 530 240C500 240 470 232 430 210C380 180 340 162 300 156C320 138 338 130 360 130Z" fill="#5abf8a" fill-opacity="0.45" />
+</svg>
