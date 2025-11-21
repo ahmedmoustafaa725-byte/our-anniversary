@@ -893,8 +893,10 @@ header.hero {
 
 /* Map */
 .map-wrap {
-  background: radial-gradient(circle at top, #1c2439, #080811 70%);
-  border-radius: var(--card-radius);
+ background: linear-gradient(135deg, rgba(31, 42, 64, 0.9), rgba(9, 12, 24, 0.95)),
+    radial-gradient(circle at 10% 0%, rgba(255, 154, 187, 0.12), transparent 40%),
+    radial-gradient(circle at 90% 20%, rgba(104, 182, 255, 0.12), transparent 38%),
+    #080811;  border-radius: var(--card-radius);
   padding: 18px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: var(--shadow-soft);
@@ -911,42 +913,29 @@ header.hero {
 
 .map-visual {
   position: relative;
-  background: radial-gradient(circle at top, #ff9abb22, #0a0f1f 70%);
-  border-radius: 18px;
-  min-height: 230px;
+ background: linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.35)),
+    url("../../images/egypt-map.svg");
+  background-size: cover;
+  background-position: center;  border-radius: 18px;
+  min-height: 320px;
   overflow: hidden;
-}
 
-.map-circle {
-  position: absolute;
-  border-radius: 999px;
-  border: 1px dashed rgba(255, 255, 255, 0.15);
-}
 
-.map-circle.c1 {
-  width: 80%;
-  height: 80%;
-  top: 10%;
-  left: 10%;
-}
-
-.map-circle.c2 {
-  width: 48%;
-  height: 48%;
-  top: 26%;
-  left: 26%;
-  border-style: solid;
-  border-color: rgba(255, 92, 141, 0.4);
+  
+border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 .map-pin {
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 999px;
   background: var(--accent);
-  box-shadow: 0 0 0 6px rgba(255, 92, 141, 0.3);
+  box-shadow: 0 0 0 6px rgba(255, 92, 141, 0.28), 0 6px 18px rgba(0, 0, 0, 0.35);
   cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
 }
 
 .map-pin-label {
@@ -956,25 +945,32 @@ header.hero {
   padding: 4px 8px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transform: translateY(-140%);
+  transform: translate(-50%, -140%);
   white-space: nowrap;
+  left: 50%;
+}
+
+.map-pin:hover,
+.map-pin:focus {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 8px rgba(255, 92, 141, 0.35), 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
 .map-pin-1 {
-  top: 60%;
-  left: 60%;
+    top: 36%;
+  left: 56%;
 }
 .map-pin-2 {
-  top: 30%;
-  left: 30%;
+   top: 38%;
+  left: 50%;
 }
 .map-pin-3 {
-  top: 45%;
-  left: 15%;
+ top: 42%;
+  left: 63%;
 }
 .map-pin-4 {
-  top: 15%;
-  left: 70%;
+  top: 10%;
+  left: 28%;
 }
 
 .map-details-nav {
