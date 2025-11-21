@@ -190,16 +190,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===== Chat reveal (index page) =====
-const lifeChatSteps = document.querySelectorAll("#life-chat-sequence .chat-step");
-  const chatSequenceBtn = document.getElementById("chat-sequence-btn");
-  if (lifeChatSteps.length && chatSequenceBtn) {
+function initChatSequence(options) {
+    const {
+      sequenceSelector,
+      buttonId,
+      startText = "Start the chat",
+      nextText = "Show the next message",
+      completedText = "All messages revealed ❤️",
+      finalHold = false,
+      finalHoldText = "Hold to reveal",
+      holdDuration = 1400,
+    } = options;
+
+    const steps = document.querySelectorAll(`${sequenceSelector} .chat-step`);
+    const button = document.getElementById(buttonId);
+
+    if (!steps.length || !button) return;
     let chatStepIndex = 0;
     let holdTimer;
 
-    function showCurrentStep(options = {}) {
-      const { skipUpdate = false } = options;
-      if (chatStepIndex >= lifeChatSteps.length) return;
-      lifeChatSteps[chatStepIndex].classList.add("visible");
+   function showCurrentStep({ skipUpdate = false } = {}) {
+      if (chatStepIndex >= steps.length) return;
+      steps[chatStepIndex].classList.add("visible");
       chatStepIndex += 1;
       if (!skipUpdate) {
         updateButtonState();
@@ -207,69 +219,87 @@ const lifeChatSteps = document.querySelectorAll("#life-chat-sequence .chat-step"
     }
 
     function updateButtonState() {
-      chatSequenceBtn.classList.remove("hold-ready");
-      chatSequenceBtn.classList.remove("holding");
+        button.classList.remove("hold-ready");
+      button.classList.remove("holding");
 
       if (chatStepIndex === 0) {
-        chatSequenceBtn.textContent = "Start the chat";
+        button.textContent = startText;
         return;
       }
 
-      if (chatStepIndex >= lifeChatSteps.length) {
-        chatSequenceBtn.textContent = "This moment changed everything 💞";
-        chatSequenceBtn.disabled = true;
+      if (chatStepIndex >= steps.length) {
+        button.textContent = completedText;
+        button.disabled = true;
         return;
       }
 
-      if (chatStepIndex === lifeChatSteps.length - 1) {
-        chatSequenceBtn.classList.add("hold-ready");
-        chatSequenceBtn.textContent = "Hold to hear her answer";
+      if (finalHold && chatStepIndex === steps.length - 1) {
+        button.classList.add("hold-ready");
+        button.textContent = finalHoldText;
       } else {
-        chatSequenceBtn.textContent = "Show the next message";
+        button.textContent = nextText;
       }
     }
 
     updateButtonState();
 
-    chatSequenceBtn.addEventListener("click", () => {
-      if (chatSequenceBtn.classList.contains("hold-ready")) return;
+    button.addEventListener("click", () => {
+      if (finalHold && button.classList.contains("hold-ready")) return;
       showCurrentStep();
     });
-    
-    function startFinalHold(event) {
-      if (!chatSequenceBtn.classList.contains("hold-ready")) return;
-      event.preventDefault();
-      if (holdTimer) clearTimeout(holdTimer);
-      chatSequenceBtn.classList.add("holding");
-      holdTimer = setTimeout(() => {
-        chatSequenceBtn.classList.remove("holding");
-        chatSequenceBtn.classList.remove("hold-ready");
-        chatSequenceBtn.classList.add("explode");
-        chatSequenceBtn.disabled = true;
-        showCurrentStep({ skipUpdate: true });
-        launchHeartBurst();
-        setTimeout(() => {
-          chatSequenceBtn.classList.add("gone");
-        }, 620);
-      }, 1400);
-    }
+     if (finalHold) {
+      function startFinalHold(event) {
+        if (!button.classList.contains("hold-ready")) return;
+        event.preventDefault();
+        if (holdTimer) clearTimeout(holdTimer);
+        button.classList.add("holding");
+        holdTimer = setTimeout(() => {
+          button.classList.remove("holding");
+          button.classList.remove("hold-ready");
+          button.classList.add("explode");
+          button.disabled = true;
+          showCurrentStep({ skipUpdate: true });
+          launchHeartBurst();
+          setTimeout(() => {
+            button.classList.add("gone");
+          }, 620);
+        }, holdDuration);
+      }
+       function cancelFinalHold() {
+        if (!button.classList.contains("hold-ready")) return;
+        button.classList.remove("holding");
+        clearTimeout(holdTimer);
+      }
 
-    function cancelFinalHold() {
-      if (!chatSequenceBtn.classList.contains("hold-ready")) return;
-      chatSequenceBtn.classList.remove("holding");
-      clearTimeout(holdTimer);
+      button.addEventListener("mousedown", startFinalHold);
+      button.addEventListener("touchstart", (event) => startFinalHold(event), {
+        passive: false,
+      });
+      window.addEventListener("mouseup", cancelFinalHold);
+      window.addEventListener("touchend", cancelFinalHold);
+      window.addEventListener("touchcancel", cancelFinalHold);
     }
-
-    chatSequenceBtn.addEventListener("mousedown", startFinalHold);
-    chatSequenceBtn.addEventListener(
-      "touchstart",
-      (event) => startFinalHold(event),
-      { passive: false }
-    );
-    window.addEventListener("mouseup", cancelFinalHold);
-    window.addEventListener("touchend", cancelFinalHold);
-    window.addEventListener("touchcancel", cancelFinalHold);
+   
   }
+  initChatSequence({
+    sequenceSelector: "#first-chat-sequence",
+    buttonId: "first-chat-btn",
+    completedText: "Our first chat was pure sweetness ❤️",
+  });
+
+  initChatSequence({
+    sequenceSelector: "#beginning-chat-sequence",
+    buttonId: "beginning-chat-btn",
+    completedText: "This is where everything began ✨",
+  });
+
+  initChatSequence({
+    sequenceSelector: "#life-chat-sequence",
+    buttonId: "chat-sequence-btn",
+    finalHold: true,
+    finalHoldText: "Hold to hear her answer",
+    completedText: "This moment changed everything 💞",
+  });
   // ===== Unlock Part 2 (story content on index) =====
   const storyTrigger = document.getElementById("story-trigger");
   const storySection = document.getElementById("story-section");
