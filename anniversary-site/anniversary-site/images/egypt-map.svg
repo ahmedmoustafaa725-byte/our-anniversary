@@ -1,40 +1,74 @@
-<svg width="900" height="640" viewBox="0 0 900 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-labelledby="title desc">
+  <title id="title">Stylized map of Egypt</title>
+  <desc id="desc">A softly shaded illustration of Egypt with the Nile running through the center.</desc>
   <defs>
-    <linearGradient id="sand" x1="180" y1="60" x2="620" y2="600" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#e6cda1" />
-      <stop offset="0.5" stop-color="#d1b582" />
-      <stop offset="1" stop-color="#b79a6a" />
+    <linearGradient id="desert" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#1b2137" />
+      <stop offset="50%" stop-color="#111726" />
+      <stop offset="100%" stop-color="#0c1022" />
     </linearGradient>
-    <linearGradient id="shore" x1="120" y1="40" x2="220" y2="200" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#3fb7ff" stop-opacity="0.9" />
-      <stop offset="1" stop-color="#3fb7ff" stop-opacity="0.2" />
-    </linearGradient>
-    <linearGradient id="sinai" x1="640" y1="120" x2="790" y2="440" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#d9c08b" />
-      <stop offset="1" stop-color="#c4a974" />
-    </linearGradient>
-    <filter id="shadow" x="0" y="0" width="900" height="640" filterUnits="userSpaceOnUse">
-      <feOffset dx="0" dy="8" />
-      <feGaussianBlur stdDeviation="12" result="blur" />
-      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.18 0" />
-      <feBlend in="SourceGraphic" in2="blur" mode="normal" />
+    <radialGradient id="glow" cx="0.48" cy="0.38" r="0.65">
+      <stop offset="0%" stop-color="#ff8fb7" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#ff8fb7" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glow-blue" cx="0.72" cy="0.32" r="0.6">
+      <stop offset="0%" stop-color="#7cc0ff" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#7cc0ff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#000" flood-opacity="0.45" />
     </filter>
   </defs>
 
-  <!-- Mediterranean Sea glow -->
-  <path d="M90 62C200 30 340 30 510 62C610 82 670 110 690 130C650 150 580 150 460 136C320 120 210 128 130 150C110 130 100 100 90 62Z" fill="url(#shore)" />
+  <rect width="640" height="480" fill="#080b19" />
+  <rect width="640" height="480" fill="url(#glow)" />
+  <rect width="640" height="480" fill="url(#glow-blue)" />
 
-  <!-- Egypt mainland -->
-  <path filter="url(#shadow)" d="M140 90L560 90L705 150L820 250L770 320L835 410L760 480L640 560L220 560L160 480L150 360L126 270L140 90Z" fill="url(#sand)" stroke="#ad8a55" stroke-width="3" stroke-linejoin="round" />
+  <g filter="url(#shadow)">
+    <path
+      d="M82 68h190l18 34 64 2 60 22 62 28-18 76-24 54-88 52-84 16-78-14-64 14-48-28-22-52V118l24-24z"
+      fill="url(#desert)"
+      stroke="#6c7391"
+      stroke-width="2.5"
+      stroke-linejoin="round"
+      opacity="0.92"
+    />
+    <path
+      d="M354 104c-10 6-20 34-20 82s10 66 10 92-12 44-8 52 30-12 54-24 50-36 60-64 10-70 14-90-10-24-36-32-52-20-74-16z"
+      fill="#11182d"
+      stroke="#2d3757"
+      stroke-width="2"
+      opacity="0.9"
+    />
+  </g>
 
-  <!-- Sinai peninsula overlay -->
-  <path d="M560 90L705 150L820 250L770 320L640 560L500 520L640 260L560 90Z" fill="url(#sinai)" opacity="0.9" stroke="#ad8a55" stroke-width="2" />
+  <path
+    d="M210 72c10 16 16 40 18 74 2 34 8 70 20 92s30 34 50 36 44-2 60-10"
+    fill="none"
+    stroke="#4fd4ff"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.9"
+  />
+  <path
+    d="M252 122c18 18 42 34 52 58s8 52 12 72"
+    fill="none"
+    stroke="#9ef2ff"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.8"
+  />
 
-  <!-- Nile River -->
-  <path d="M470 92C460 140 450 184 430 210C380 280 360 330 350 420C340 500 310 540 270 568" stroke="#38b6ff" stroke-width="8" stroke-linecap="round" />
-  <path d="M420 238C448 230 468 240 484 258C510 286 520 320 520 360" stroke="#38b6ff" stroke-width="6" stroke-linecap="round" />
-  <path d="M370 328C396 326 422 340 430 368C436 392 432 414 420 440" stroke="#38b6ff" stroke-width="5" stroke-linecap="round" />
+  <circle cx="232" cy="86" r="8" fill="#ff9ec6" opacity="0.7" />
+  <circle cx="420" cy="110" r="10" fill="#ff9ec6" opacity="0.22" />
+  <circle cx="310" cy="298" r="12" fill="#ff9ec6" opacity="0.18" />
 
-  <!-- Delta greenery suggestion -->
-  <path d="M360 130C460 150 520 190 530 240C500 240 470 232 430 210C380 180 340 162 300 156C320 138 338 130 360 130Z" fill="#5abf8a" fill-opacity="0.45" />
+  <text x="120" y="94" fill="#a8b1d9" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="16" opacity="0.9">
+    Egypt
+  </text>
+  <text x="360" y="360" fill="#6172a2" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="12" opacity="0.7">
+    Nile Delta · Cairo · Giza
+  </text>
 </svg>
