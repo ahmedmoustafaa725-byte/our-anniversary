@@ -1,5 +1,4 @@
 const defaultWords = ["Bahebk", "b3sha2ak", "bamout feek"];
-const placeholderCount = 3;
 const treeGrid = document.getElementById("love-tree-grid");
 const wordForm = document.getElementById("word-form");
 const wordInput = document.getElementById("new-word-input");
@@ -15,9 +14,7 @@ function createNode(word, className = "") {
 function renderBaseTree() {
   if (!treeGrid) return;
   defaultWords.forEach((word) => treeGrid.appendChild(createNode(word)));
-  for (let i = 0; i < placeholderCount; i++) {
-    treeGrid.appendChild(createNode("Future word", "placeholder"));
-  }
+ 
 }
 
 function addWordToTree(word) {
