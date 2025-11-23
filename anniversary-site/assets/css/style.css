@@ -1375,7 +1375,7 @@ border: 1px solid rgba(255, 255, 255, 0.1);
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 18px;
 }
-V
+
 .gallery-card {
   background: rgba(11, 11, 20, 0.95);
   border-radius: 22px;
@@ -1393,6 +1393,31 @@ V
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+}
+
+.gallery-remove {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.gallery-remove:hover,
+.gallery-remove:focus-visible {
+  transform: scale(1.07);
+  background: rgba(255, 73, 110, 0.9);
 }
 
 /* Center link section */
