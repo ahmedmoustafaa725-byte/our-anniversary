@@ -43,16 +43,16 @@ async function initFirebase() {
       import("https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"),
     ]);
 
-    const firebaseConfig =
-      window.FIREBASE_LOVE_CONFIG ||
-      window.firebaseConfig || {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_AUTH_DOMAIN",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_STORAGE_BUCKET",
-        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-        appId: "YOUR_APP_ID",
-      };
+    const firebaseConfig = {
+  apiKey: "AIzaSyC7k78w1hjJUa-7lZrDtv6EDGfkyHg7tqI",
+  authDomain: "our-anniversary-776e6.firebaseapp.com",
+  projectId: "our-anniversary-776e6",
+  storageBucket: "our-anniversary-776e6.firebasestorage.app",
+  messagingSenderId: "536607384928",
+  appId: "1:536607384928:web:c5ce6c6ad6e4180cab2a05",
+  measurementId: "G-PWLE32KMFX"
+};
+
 
     const app = initializeApp(firebaseConfig);
     firestore = getFirestore(app);
