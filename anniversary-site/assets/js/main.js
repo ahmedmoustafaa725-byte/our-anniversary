@@ -1,6 +1,40 @@
 // main.js – shared logic for all pages
 
 document.addEventListener("DOMContentLoaded", () => {
+  // ===== Firebase setup (used for gallery uploads) =====
+  const firebaseConfig = {
+    apiKey: "AIzaSyC7k78w1hjJUa-7lZrDtv6EDGfkyHg7tqI",
+    authDomain: "our-anniversary-776e6.firebaseapp.com",
+    projectId: "our-anniversary-776e6",
+    storageBucket: "our-anniversary-776e6.firebasestorage.app",
+    messagingSenderId: "536607384928",
+    appId: "1:536607384928:web:c5ce6c6ad6e4180cab2a05",
+    measurementId: "G-PWLE32KMFX",
+  };
+
+  let firebaseApp = null;
+  let firebaseStorage = null;
+
+  function initializeFirebase() {
+    if (firebaseApp || !window.firebase) return firebaseApp;
+    try {
+      firebaseApp = firebase.initializeApp(firebaseConfig);
+      if (typeof firebase.analytics === "function") {
+        firebase.analytics();
+      }
+    } catch (error) {
+      console.warn("Firebase initialization failed:", error);
+    }
+    return firebaseApp;
+  }
+
+  function getFirebaseStorage() {
+    if (firebaseStorage) return firebaseStorage;
+    if (!initializeFirebase()) return null;
+    if (!firebase.storage) return null;
+    firebaseStorage = firebase.storage();
+    return firebaseStorage;
+  }
   // ===== Floating hearts =====
   const heartBg = document.getElementById("heart-bg");
     const heartBurstLayer = document.getElementById("heart-pop-layer");
@@ -515,10 +549,35 @@ function initChatSequence(options) {
       ...featuredMemories,
       ...extraPhotos.map((file, index) => ({
         src: `images/${file}`,
-        title: `Memory ${index + 1}`,
-        alt: `Memory photo ${index + 1} from our gallery`,
       })),
     ];
+  async function loadCloudPhotos() {
+      const storage = getFirebaseStorage();
+      if (!storage || !storage.ref) return;
+
+      try {
+        const uploadsRef = storage.ref("uploads");
+        const list = await uploadsRef.listAll();
+        const downloadPromises = list.items.map(async (item) => ({
+          url: await item.getDownloadURL(),
+          name: item.name,
+        }));
+        const cloudPhotos = await Promise.all(downloadPromises);
+        cloudPhotos.forEach((photo) => {
+          galleryItems.push({
+            src: photo.url,
+            title: `Cloud memory ${galleryItems.length + 1}`,
+            alt: photo.name,
+          });
+        });
+        if (cloudPhotos.length) {
+          renderGallery();
+          updateHelperMessage(cloudPhotos.length);
+        }
+      } catch (error) {
+        console.warn("Could not load cloud photos:", error);
+      }
+    }
 
     function buildGalleryCard(item) {
       const article = document.createElement("article");
@@ -555,10 +614,31 @@ function initChatSequence(options) {
       }! You can keep adding or rearrange them in the /images folder. (${total} shown)`;
     }
 
-    function addUploadedPhotos(files) {
+    async function addUploadedPhotos(files) {
       let addedCount = 0;
-      files.forEach((file) => {
-        if (!file.type.startsWith("image/")) return;
+        for (const file of files) {
+        if (!file.type.startsWith("image/")) continue;
+        addedCount += 1;
+
+        const storage = getFirebaseStorage();
+        if (storage && storage.ref) {
+          try {
+            const uploadRef = storage
+              .ref("uploads")
+              .child(`${Date.now()}-${file.name}`);
+            await uploadRef.put(file);
+            const url = await uploadRef.getDownloadURL();
+            galleryItems.push({
+              src: url,
+              title: `New cloud memory ${galleryItems.length + 1}`,
+              alt: file.name,
+            });
+            renderGallery();
+            continue;
+          } catch (error) {
+            console.warn("Cloud upload failed, falling back to local preview:", error);
+          }
+        }
         const reader = new FileReader();
         reader.onload = (event) => {
           galleryItems.push({
@@ -569,19 +649,19 @@ function initChatSequence(options) {
           renderGallery();
         };
         reader.readAsDataURL(file);
-        addedCount += 1;
-      });
+        }
       updateHelperMessage(addedCount);
     }
 
     renderGallery();
+    loadCloudPhotos();
 
     if (addPhotoBtn && addPhotoInput) {
       addPhotoBtn.addEventListener("click", () => addPhotoInput.click());
-      addPhotoInput.addEventListener("change", (event) => {
+      addPhotoInput.addEventListener("change", async (event) => {
         const files = Array.from(event.target.files || []);
         if (!files.length) return;
-        addUploadedPhotos(files);
+        await addUploadedPhotos(files);
         addPhotoInput.value = "";
       });
     }
