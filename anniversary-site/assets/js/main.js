@@ -515,6 +515,8 @@ function initChatSequence(options) {
       ...extraPhotos.map((file) => ({
 
         src: `images/${file}`,
+          title: file.replace(/\.[^.]+$/, "").replace(/[-_]/g, " "),
+        alt: "One of our favorite memories",
       })),
     ];
 
@@ -525,7 +527,7 @@ function initChatSequence(options) {
       article.className = "gallery-card";
 
       const heading = document.createElement("h3");
-      heading.textContent = item.title;
+      heading.textContent = item.title || "A favorite memory";
       article.appendChild(heading);
 
       const wrap = document.createElement("div");
@@ -547,6 +549,7 @@ function initChatSequence(options) {
       });
     }
 
+    renderGallery();
 
   }
 });
