@@ -1,9 +1,11 @@
 .love-hero {
-  background: radial-gradient(circle at 20% 20%, rgba(255, 192, 203, 0.28), transparent 45%),
-    radial-gradient(circle at 80% 10%, rgba(255, 182, 193, 0.18), transparent 40%),
-    radial-gradient(circle at 50% 90%, rgba(255, 221, 240, 0.24), transparent 40%),
-    linear-gradient(180deg, #fff6fb 0%, #ffffff 40%, #fff6fb 100%);
+ background: radial-gradient(circle at 20% 20%, rgba(255, 92, 141, 0.12), transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(140, 64, 120, 0.14), transparent 38%),
+    radial-gradient(circle at 50% 90%, rgba(61, 36, 94, 0.28), transparent 44%),
+    linear-gradient(180deg, #0f0b1f 0%, #0a0818 45%, #070712 100%);
   padding-bottom: 4rem;
+    color: var(--text-main);
+
 }
 
 .love-section {
@@ -12,22 +14,23 @@
 
 .sequence-list {
   list-style: decimal;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1rem;
+  list-style-position: inside;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
   padding: 0;
   margin: 2rem 0 0;
 }
 
 .sequence-card {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 14px;
   padding: 1rem 1.25rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 105, 180, 0.18);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.14);
+  border: 1px solid rgba(255, 92, 141, 0.4);
   font-weight: 600;
-  color: #d63384;
-  text-align: center;
+   color: var(--text-main);
+  text-align: left;
 }
 
 .love-tree {
