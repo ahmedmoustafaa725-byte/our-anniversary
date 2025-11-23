@@ -34,39 +34,29 @@
           <div class="section-label">Photos</div>
           <h2 class="section-title">Some of my favorite shots</h2>
           <p class="section-sub">
-            These are just a few places to start. You can always add more images
-            to the <code>/images</code> folder and duplicate these cards.
+            Every photo sitting inside the <code>/images</code> folder now shows
+            up here automatically. Want to add even more? Drop them in and use
+            the button below to place them right into our gallery.
           </p>
-
-          <div class="gallery-grid">
-            <article class="gallery-card">
-              <h3>Our first picture</h3>
-              <div class="gallery-img-wrap">
-                <img src="images/first-picture.jpg" alt="Our first picture together" />
-              </div>
-            </article>
-
-            <article class="gallery-card">
-              <h3>Our first date picture</h3>
-              <div class="gallery-img-wrap">
-                <img src="images/first-date.jpg" alt="Our first date picture" />
-              </div>
-            </article>
-
-            <article class="gallery-card">
-              <h3>The cutest picture of you</h3>
-              <div class="gallery-img-wrap">
-                <img src="images/cutest-you.jpg" alt="The cutest picture of you" />
-              </div>
-            </article>
-
-            <article class="gallery-card">
-              <h3>The picture of us I love the most</h3>
-              <div class="gallery-img-wrap">
-                <img src="images/favorite-us.jpg" alt="My favourite picture of us" />
-              </div>
-            </article>
+          <div class="gallery-actions">
+            <button class="btn-primary" type="button" id="add-photo-btn">
+              Add a new picture
+            </button>
+            <input
+              type="file"
+              accept="image/*"
+              id="add-photo-input"
+              aria-label="Upload a new memory"
+              multiple
+              hidden
+            />
+            <p class="gallery-hint" id="add-photo-helper">
+              The photos already in <code>/images</code> are displayed below.
+              You can also pick more images from your device to add them on the
+              fly.
+            </p>
           </div>
+          <div class="gallery-grid" data-gallery-grid></div>
 
           <div class="next-part">
             <a href="story.html" class="btn-ghost">Back to Part 2 (our story)</a>
