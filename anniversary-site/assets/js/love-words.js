@@ -70,7 +70,10 @@ async function initFirebase() {
 }
 
 async function loadExistingWords() {
-  if (!firebaseReady || !firestore) return;
+  if (!firebaseReady || !firestore) {
+    updateStatus("Added locally, but waiting for Firebase connection.", false);
+    return false;
+  }
   try {
     const { collection, getDocs, orderBy, query } = await import(
       "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"
@@ -103,24 +106,33 @@ async function saveWord(word) {
       createdAt: serverTimestamp(),
     });
     updateStatus("Saved to Firebase and added to our tree!");
+        return true;
+
   } catch (error) {
     updateStatus("Added locally, but couldn't save to Firebase yet.", false);
     console.warn("Save word failed", error);
+        return false;
+
   }
 }
 
-function handleFormSubmit(event) {
+async function handleFormSubmit(event) {
   event.preventDefault();
   if (!wordInput) return;
   const word = wordInput.value.trim();
   if (!word) return;
   addWordToTree(word);
-  saveWord(word);
-  wordInput.value = "";
+ updateStatus("Saving to Firebase...");
+
+  if (firebaseSetupPromise) {
+    await firebaseSetupPromise;
+  }
+
+  await saveWord(word);  wordInput.value = "";
 }
 
 renderBaseTree();
-initFirebase();
+const firebaseSetupPromise = initFirebase();
 
 if (wordForm) {
   wordForm.addEventListener("submit", handleFormSubmit);
