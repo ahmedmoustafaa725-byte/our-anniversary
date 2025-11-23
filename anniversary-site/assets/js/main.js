@@ -438,4 +438,152 @@ function initChatSequence(options) {
       createMiniHeart();
     });
   }
+   // ===== Gallery page enhancements =====
+  const galleryGrid = document.querySelector("[data-gallery-grid]");
+  const addPhotoBtn = document.getElementById("add-photo-btn");
+  const addPhotoInput = document.getElementById("add-photo-input");
+  const addPhotoHelper = document.getElementById("add-photo-helper");
+
+  if (galleryGrid) {
+    const featuredMemories = [
+      {
+        src: "images/first-picture.jpg",
+        title: "Our first picture",
+        alt: "Our first picture together",
+      },
+      {
+        src: "images/first-date.jpg",
+        title: "Our first date picture",
+        alt: "Our first date picture",
+      },
+      {
+        src: "images/cutest-you.jpg",
+        title: "The cutest picture of you",
+        alt: "The cutest picture of you",
+      },
+      {
+        src: "images/favorite-us.jpg",
+        title: "The picture of us I love the most",
+        alt: "My favourite picture of us",
+      },
+      {
+        src: "images/first-chat.jpg",
+        title: "Our first chat",
+        alt: "Screenshot of our first chat",
+      },
+      {
+        src: "images/chat-begin.jpg",
+        title: "Where it all began",
+        alt: "Screenshot of the chat that started us",
+      },
+      {
+        src: "images/chat-changed-my-life.png",
+        title: "The chat that changed my life",
+        alt: "The conversation that changed everything",
+      },
+    ];
+
+    const extraPhotos = [
+      "IMG-20251016-WA0034.jpg",
+      "IMG-20251016-WA0036.jpg",
+      "IMG-20251123-WA0029.jpg",
+      "IMG-20251123-WA0030.jpg",
+      "IMG-20251123-WA0031.jpg",
+      "IMG-20251123-WA0032.jpg",
+      "IMG-20251123-WA0033.jpg",
+      "IMG-20251123-WA0034.jpg",
+      "IMG-20251123-WA0035.jpg",
+      "IMG-20251123-WA0036.jpg",
+      "IMG-20251123-WA0037.jpg",
+      "IMG-20251123-WA0038.jpg",
+      "IMG-20251123-WA0039.jpg",
+      "IMG-20251123-WA0040.jpg",
+      "IMG-20251123-WA0041.jpg",
+      "IMG-20251123-WA0042.jpg",
+      "IMG-20251123-WA0043.jpg",
+      "IMG-20251123-WA0044.jpg",
+      "IMG-20251123-WA0045.jpg",
+      "IMG-20251123-WA0046.jpg",
+      "IMG-20251123-WA0047.jpg",
+      "IMG-20251123-WA0048.jpg",
+      "IMG-20251123-WA0049.jpg",
+      "IMG-20251123-WA0050.jpg",
+      "IMG-20251123-WA0051.jpg",
+    ];
+
+    const galleryItems = [
+      ...featuredMemories,
+      ...extraPhotos.map((file, index) => ({
+        src: `images/${file}`,
+        title: `Memory ${index + 1}`,
+        alt: `Memory photo ${index + 1} from our gallery`,
+      })),
+    ];
+
+    function buildGalleryCard(item) {
+      const article = document.createElement("article");
+      article.className = "gallery-card";
+
+      const heading = document.createElement("h3");
+      heading.textContent = item.title;
+      article.appendChild(heading);
+
+      const wrap = document.createElement("div");
+      wrap.className = "gallery-img-wrap";
+
+      const img = document.createElement("img");
+      img.src = item.src;
+      img.alt = item.alt || item.title;
+      wrap.appendChild(img);
+
+      article.appendChild(wrap);
+      return article;
+    }
+
+    function renderGallery() {
+      galleryGrid.innerHTML = "";
+      galleryItems.forEach((item) => {
+        galleryGrid.appendChild(buildGalleryCard(item));
+      });
+    }
+
+    function updateHelperMessage(addedCount) {
+      if (!addPhotoHelper || !addedCount) return;
+      const total = galleryItems.length;
+      addPhotoHelper.textContent = `Added ${addedCount} new ${
+        addedCount === 1 ? "photo" : "photos"
+      }! You can keep adding or rearrange them in the /images folder. (${total} shown)`;
+    }
+
+    function addUploadedPhotos(files) {
+      let addedCount = 0;
+      files.forEach((file) => {
+        if (!file.type.startsWith("image/")) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          galleryItems.push({
+            src: event.target.result,
+            title: `New memory ${galleryItems.length + 1}`,
+            alt: file.name,
+          });
+          renderGallery();
+        };
+        reader.readAsDataURL(file);
+        addedCount += 1;
+      });
+      updateHelperMessage(addedCount);
+    }
+
+    renderGallery();
+
+    if (addPhotoBtn && addPhotoInput) {
+      addPhotoBtn.addEventListener("click", () => addPhotoInput.click());
+      addPhotoInput.addEventListener("change", (event) => {
+        const files = Array.from(event.target.files || []);
+        if (!files.length) return;
+        addUploadedPhotos(files);
+        addPhotoInput.value = "";
+      });
+    }
+  }
 });
