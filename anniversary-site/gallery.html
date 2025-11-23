@@ -38,24 +38,7 @@
             up here automatically. Want to add even more? Drop them in and use
             the button below to place them right into our gallery.
           </p>
-          <div class="gallery-actions">
-            <button class="btn-primary" type="button" id="add-photo-btn">
-              Add a new picture
-            </button>
-            <input
-              type="file"
-              accept="image/*"
-              id="add-photo-input"
-              aria-label="Upload a new memory"
-              multiple
-              hidden
-            />
-            <p class="gallery-hint" id="add-photo-helper">
-              The photos already in <code>/images</code> are displayed below.
-              You can also pick more images from your device to add them on the
-              fly.
-            </p>
-          </div>
+        
           <div class="gallery-grid" data-gallery-grid></div>
 
           <div class="next-part">
@@ -72,9 +55,7 @@
   </main>
 
   <audio id="bg-music" src="music/our_song.mp3" preload="auto" loop></audio>
-   <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-storage-compat.js"></script>
+ 
   <script src="assets/js/main.js"></script>
 </body>
 </html>
