@@ -671,13 +671,31 @@ function initChatSequence(options) {
       const total = galleryItems.length;
       addPhotoHelper.textContent = `Added ${addedCount} new ${
         addedCount === 1 ? "photo" : "photos"
-      }! You can keep adding or rearrange them in the /images folder. (${total} shown)`;
+      }
+      ! You can keep adding or rearrange them in the /images folder. (${total} shown)`;
     }
+  function isImageFile(file) {
+      if (file.type && file.type.startsWith("image/")) return true;
 
+      const extension = (file.name || "").split(".").pop().toLowerCase();
+      const knownImageExts = [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "webp",
+        "bmp",
+        "svg",
+        "heic",
+        "heif",
+      ];
+
+      return knownImageExts.includes(extension);
+    }
     async function addUploadedPhotos(files) {
       let addedCount = 0;
         for (const file of files) {
-        if (!file.type.startsWith("image/")) continue;
+        if (!isImageFile(file)) continue;
         addedCount += 1;
         const id = `${Date.now()}-${Math.random().toString(16).slice(2)}-${file.name}`;
 
