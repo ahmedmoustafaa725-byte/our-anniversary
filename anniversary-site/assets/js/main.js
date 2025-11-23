@@ -477,6 +477,8 @@ function initChatSequence(options) {
   const addPhotoBtn = document.getElementById("add-photo-btn");
   const addPhotoInput = document.getElementById("add-photo-input");
   const addPhotoHelper = document.getElementById("add-photo-helper");
+    const LOCAL_UPLOADS_KEY = "ourGalleryUploads";
+
 
   if (galleryGrid) {
     const featuredMemories = [
@@ -551,6 +553,48 @@ function initChatSequence(options) {
         src: `images/${file}`,
       })),
     ];
+ function getStoredUploads() {
+      try {
+        const raw = localStorage.getItem(LOCAL_UPLOADS_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+        return parsed;
+      } catch (error) {
+        console.warn("Could not read stored uploads:", error);
+        return [];
+      }
+    }
+
+    function persistUploads() {
+      try {
+        const uploads = galleryItems
+          .filter((item) => item.persistent)
+          .map((item) => ({
+            id: item.id,
+            src: item.src,
+            title: item.title,
+            alt: item.alt,
+            removable: item.removable,
+            persistent: true,
+          }));
+        localStorage.setItem(LOCAL_UPLOADS_KEY, JSON.stringify(uploads));
+      } catch (error) {
+        console.warn("Could not save uploads:", error);
+      }
+    }
+
+    function hydrateStoredUploads() {
+      const saved = getStoredUploads();
+      if (!saved.length) return;
+      saved.forEach((item) => {
+        galleryItems.push({
+          ...item,
+          removable: true,
+          persistent: true,
+        });
+      });
+    }
   async function loadCloudPhotos() {
       const storage = getFirebaseStorage();
       if (!storage || !storage.ref) return;
@@ -589,7 +633,15 @@ function initChatSequence(options) {
 
       const wrap = document.createElement("div");
       wrap.className = "gallery-img-wrap";
-
+ if (item.removable) {
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "gallery-remove";
+        removeBtn.setAttribute("aria-label", "Remove this photo");
+        removeBtn.innerHTML = "&times;";
+        removeBtn.addEventListener("click", () => removeGalleryItem(item.id));
+        wrap.appendChild(removeBtn);
+      }
       const img = document.createElement("img");
       img.src = item.src;
       img.alt = item.alt || item.title;
@@ -605,7 +657,15 @@ function initChatSequence(options) {
         galleryGrid.appendChild(buildGalleryCard(item));
       });
     }
-
+ function removeGalleryItem(id) {
+      const index = galleryItems.findIndex((item) => item.id === id);
+      if (index === -1) return;
+      const [removed] = galleryItems.splice(index, 1);
+      renderGallery();
+      if (removed.persistent) {
+        persistUploads();
+      }
+    }
     function updateHelperMessage(addedCount) {
       if (!addPhotoHelper || !addedCount) return;
       const total = galleryItems.length;
@@ -619,20 +679,25 @@ function initChatSequence(options) {
         for (const file of files) {
         if (!file.type.startsWith("image/")) continue;
         addedCount += 1;
+        const id = `${Date.now()}-${Math.random().toString(16).slice(2)}-${file.name}`;
 
         const storage = getFirebaseStorage();
         if (storage && storage.ref) {
           try {
-            const uploadRef = storage
-              .ref("uploads")
-              .child(`${Date.now()}-${file.name}`);
+                       const uploadRef = storage.ref("uploads").child(id);
+
             await uploadRef.put(file);
             const url = await uploadRef.getDownloadURL();
             galleryItems.push({
+              id,
               src: url,
               title: `New cloud memory ${galleryItems.length + 1}`,
               alt: file.name,
+              removable: true,
+              persistent: true,
             });
+                        persistUploads();
+
             renderGallery();
             continue;
           } catch (error) {
@@ -642,9 +707,13 @@ function initChatSequence(options) {
         const reader = new FileReader();
         reader.onload = (event) => {
           galleryItems.push({
+                        id,
+
             src: event.target.result,
             title: `New memory ${galleryItems.length + 1}`,
             alt: file.name,
+             removable: true,
+            persistent: true,
           });
           renderGallery();
         };
@@ -652,6 +721,7 @@ function initChatSequence(options) {
         }
       updateHelperMessage(addedCount);
     }
+    hydrateStoredUploads();
 
     renderGallery();
     loadCloudPhotos();
