@@ -6,8 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
     apiKey: "AIzaSyC7k78w1hjJUa-7lZrDtv6EDGfkyHg7tqI",
     authDomain: "our-anniversary-776e6.firebaseapp.com",
     projectId: "our-anniversary-776e6",
-    storageBucket: "our-anniversary-776e6.firebasestorage.app",
-    messagingSenderId: "536607384928",
+// Use the default Firebase Storage bucket domain (appspot.com) so uploads work
+    // with the compat SDK and our project ID.
+    storageBucket: "our-anniversary-776e6.appspot.com",    messagingSenderId: "536607384928",
     appId: "1:536607384928:web:c5ce6c6ad6e4180cab2a05",
     measurementId: "G-PWLE32KMFX",
   };
