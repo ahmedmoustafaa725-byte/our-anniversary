@@ -1093,6 +1093,122 @@ border: 1px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 4px;
   color: #ffffff;
 }
+/* Bucket list */
+.bucket-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.bucket-progress {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: var(--shadow-soft);
+}
+
+.bucket-progress-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.bucket-progress-label {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  color: var(--accent-2);
+}
+
+.bucket-progress-text {
+  font-weight: 600;
+}
+
+.bucket-progress-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.bucket-progress-fill {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background: linear-gradient(90deg, #ff8fa9, #ff5c8d);
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+
+.bucket-progress-summary {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.bucket-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.bucket-card {
+  background: rgba(11, 11, 20, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 8px;
+}
+
+.bucket-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.bucket-status {
+  font-size: 0.75rem;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.bucket-status.done {
+  color: #0e3;
+  border-color: rgba(0, 255, 153, 0.35);
+  background: rgba(0, 255, 153, 0.06);
+}
+
+.bucket-status.todo {
+  color: var(--accent-2);
+}
+
+.bucket-detail {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.bucket-btn {
+  width: fit-content;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+}
+
+@media (max-width: 780px) {
+  .bucket-layout {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* Stats */
 .stats-grid {
