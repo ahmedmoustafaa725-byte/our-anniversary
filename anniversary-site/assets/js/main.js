@@ -444,6 +444,51 @@ function initChatSequence(options) {
  
  const addPhotosBtn = document.querySelector("[data-add-photos]");
   const addPhotosInput = document.querySelector("[data-add-photos-input]");
+   const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyC7k78w1hjJUa-7lZrDtv6EDGfkyHg7tqI",
+    authDomain: "our-anniversary-776e6.firebaseapp.com",
+    projectId: "our-anniversary-776e6",
+    storageBucket: "our-anniversary-776e6.firebasestorage.app",
+    messagingSenderId: "536607384928",
+    appId: "1:536607384928:web:c5ce6c6ad6e4180cab2a05",
+    measurementId: "G-PWLE32KMFX",
+  };
+
+  let firebaseApp;
+  let firebaseStorage;
+  let firebaseFirestore;
+  let firebaseReadyForGallery = false;
+  let firebaseSetupPromise;
+
+  async function ensureFirebaseForGallery() {
+    if (firebaseSetupPromise) return firebaseSetupPromise;
+    firebaseSetupPromise = (async () => {
+      try {
+        const [{ initializeApp, getApps }, { getStorage }, { getFirestore }] =
+          await Promise.all([
+            import("https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"),
+            import(
+              "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js"
+            ),
+            import(
+              "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"
+            ),
+          ]);
+
+        const existing = getApps();
+        firebaseApp = existing.length
+          ? existing[0]
+          : initializeApp(FIREBASE_CONFIG);
+        firebaseStorage = getStorage(firebaseApp);
+        firebaseFirestore = getFirestore(firebaseApp);
+        firebaseReadyForGallery = true;
+      } catch (error) {
+        console.warn("Firebase (gallery) setup issue", error);
+        firebaseReadyForGallery = false;
+      }
+    })();
+    return firebaseSetupPromise;
+  }
   if (galleryGrid) {
     const featuredMemories = [
       {
@@ -522,6 +567,39 @@ function initChatSequence(options) {
     ];
 
 const addedObjectUrls = [];
+ async function loadSavedGalleryPhotos() {
+      if (!firebaseSetupPromise) {
+        await ensureFirebaseForGallery();
+      } else {
+        await firebaseSetupPromise;
+      }
+
+      if (!firebaseReadyForGallery || !firebaseFirestore) return;
+
+      try {
+        const { collection, getDocs, orderBy, query } = await import(
+          "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"
+        );
+        const savedQuery = query(
+          collection(firebaseFirestore, "galleryPhotos"),
+          orderBy("createdAt", "asc")
+        );
+        const snapshot = await getDocs(savedQuery);
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          if (data?.downloadUrl) {
+            galleryItems.push({
+              src: data.downloadUrl,
+              title: data.title || formatTitleFromFilename(data.storagePath),
+              alt: data.alt || data.title || "Memory saved in the cloud",
+            });
+          }
+        });
+        renderGallery();
+      } catch (error) {
+        console.warn("Could not load gallery photos from Firebase", error);
+      }
+    }
 
     function formatTitleFromFilename(name = "") {
       const base = name
@@ -558,17 +636,62 @@ const addedObjectUrls = [];
         galleryGrid.appendChild(buildGalleryCard(item));
       });
     }
-function addNewPhotos(files) {
-      if (!files?.length) return;
+ async function uploadPhotoToFirebase(file, title, itemIndex) {
+      await ensureFirebaseForGallery();
+      if (
+        !firebaseReadyForGallery ||
+        !firebaseStorage ||
+        !firebaseFirestore
+      ) {
+        return;
+      }
+
+      try {
+        const [{ ref, uploadBytes, getDownloadURL }, { addDoc, collection, serverTimestamp }] =
+          await Promise.all([
+            import("https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js"),
+            import("https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"),
+          ]);
+
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const storagePath = `galleryUploads/${Date.now()}-${Math.random()
+          .toString(16)
+          .slice(2)}-${safeName}`;
+        const storageRef = ref(firebaseStorage, storagePath);
+        const uploadResult = await uploadBytes(storageRef, file);
+        const downloadUrl = await getDownloadURL(uploadResult.ref);
+
+        await addDoc(collection(firebaseFirestore, "galleryPhotos"), {
+          title,
+          storagePath,
+          downloadUrl,
+          originalName: file.name,
+          createdAt: serverTimestamp(),
+        });
+
+        if (galleryItems[itemIndex]) {
+          galleryItems[itemIndex].src = downloadUrl;
+          galleryItems[itemIndex].alt =
+            galleryItems[itemIndex].alt || `Memory saved: ${title}`;
+          renderGallery();
+        }
+      } catch (error) {
+        console.warn("Uploading photo to Firebase failed", error);
+      }
+    }
+
+    function addNewPhotos(files) {      if (!files?.length) return;
       Array.from(files).forEach((file) => {
         const objectUrl = URL.createObjectURL(file);
         addedObjectUrls.push(objectUrl);
         const title = formatTitleFromFilename(file.name);
-        galleryItems.push({
+        const galleryIndex = galleryItems.push({
           src: objectUrl,
           title,
           alt: `Memory added right now: ${title}`,
         });
+                uploadPhotoToFirebase(file, title, galleryIndex - 1);
+
       });
       renderGallery();
       launchHeartBurst?.(18);
@@ -586,6 +709,7 @@ function addNewPhotos(files) {
       });
     }
     renderGallery();
+    loadSavedGalleryPhotos();
 
   }
 });
