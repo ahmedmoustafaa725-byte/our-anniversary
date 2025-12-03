@@ -397,7 +397,144 @@ function initChatSequence(options) {
       });
     });
   }
+ // ===== Bucket list (index story page) =====
+  const bucketListEl = document.getElementById("bucket-list");
+  const bucketProgressFill = document.getElementById("bucket-progress-fill");
+  const bucketProgressText = document.getElementById("bucket-progress-text");
+  const bucketProgressSummary = document.getElementById("bucket-progress-summary");
 
+  const BUCKET_LIST_ITEMS = [
+    {
+      id: "sunset-walk",
+      title: "Sunset walk in District 5",
+      detail: "Same bench, new playlist. I’ll bring the snacks.",
+    },
+    {
+      id: "cook-night",
+      title: "Cook a new recipe together",
+      detail: "Messy kitchen, lots of laughing, maybe a flour fight.",
+    },
+    {
+      id: "museum-redux",
+      title: "Museum date, part 2",
+      detail: "Return to the Grand Egyptian Museum with goofy audioguides.",
+    },
+    {
+      id: "letter-drop",
+      title: "Hidden love letter drop",
+      detail: "I’ll tuck a letter somewhere at home and let you find it.",
+    },
+    {
+      id: "munich-dream",
+      title: "Munich practice date",
+      detail: "Pretzels, cozy drinks, and planning that future skyline walk.",
+    },
+    {
+      id: "gratitude-night",
+      title: "Monthly gratitude night",
+      detail: "Pick one day to say three things we loved about the month.",
+    },
+  ];
+
+  function loadBucketState() {
+    if (typeof localStorage === "undefined") return new Set();
+    try {
+      const raw = localStorage.getItem("bucketListDone");
+      if (!raw) return new Set();
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return new Set();
+      return new Set(parsed);
+    } catch (e) {
+      return new Set();
+    }
+  }
+
+  function saveBucketState(state) {
+    if (typeof localStorage === "undefined") return;
+    try {
+      localStorage.setItem("bucketListDone", JSON.stringify(Array.from(state)));
+    } catch (e) {
+      // ignore storage failures
+    }
+  }
+
+  if (bucketListEl && bucketProgressFill && bucketProgressText) {
+    let bucketDone = loadBucketState();
+
+    function updateProgress() {
+      const completed = BUCKET_LIST_ITEMS.filter((item) =>
+        bucketDone.has(item.id)
+      ).length;
+      const percent = Math.round((completed / BUCKET_LIST_ITEMS.length) * 100);
+      bucketProgressFill.style.width = `${percent}%`;
+      bucketProgressText.textContent = `${completed}/${BUCKET_LIST_ITEMS.length} done`;
+
+      if (bucketProgressSummary) {
+        if (completed === 0) {
+          bucketProgressSummary.textContent =
+            "Pick one to start checking off together. I’ll handle the planning. ❤️";
+        } else if (completed === BUCKET_LIST_ITEMS.length) {
+          bucketProgressSummary.textContent =
+            "We did all of them! Time to dream up new adventures.";
+        } else {
+          bucketProgressSummary.textContent =
+            "Little by little, we’re filling this year with memories.";
+        }
+      }
+    }
+
+    function buildBucketCard(item) {
+      const isDone = bucketDone.has(item.id);
+      const article = document.createElement("article");
+      article.className = "bucket-card";
+
+      const header = document.createElement("div");
+      header.className = "bucket-card-top";
+
+      const title = document.createElement("h3");
+      title.textContent = item.title;
+      header.appendChild(title);
+
+      const status = document.createElement("span");
+      status.className = `bucket-status ${isDone ? "done" : "todo"}`;
+      status.textContent = isDone ? "Planned & done" : "Let’s do this";
+      header.appendChild(status);
+
+      const detail = document.createElement("p");
+      detail.className = "bucket-detail";
+      detail.textContent = item.detail;
+
+      const button = document.createElement("button");
+      button.className = "btn-ghost bucket-btn";
+      button.textContent = isDone ? "Mark as to-do again" : "Mark as done";
+      button.addEventListener("click", () => {
+        if (bucketDone.has(item.id)) {
+          bucketDone.delete(item.id);
+        } else {
+          bucketDone.add(item.id);
+          launchHeartBurst(12);
+        }
+        saveBucketState(bucketDone);
+        renderBucketList();
+      });
+
+      article.appendChild(header);
+      article.appendChild(detail);
+      article.appendChild(button);
+
+      return article;
+    }
+
+    function renderBucketList() {
+      bucketListEl.innerHTML = "";
+      BUCKET_LIST_ITEMS.forEach((item) => {
+        bucketListEl.appendChild(buildBucketCard(item));
+      });
+      updateProgress();
+    }
+
+    renderBucketList();
+  }
   // ===== Why I love you reasons (story page) =====
   const whyBtn = document.getElementById("why-btn");
   const whyDisplay = document.getElementById("why-display");
