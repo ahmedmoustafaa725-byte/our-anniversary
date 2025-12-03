@@ -38,7 +38,24 @@
             up here automatically. Want to add even more? Drop them in and use
             the button below to place them right into our gallery.
           </p>
-        
+         <div class="gallery-actions">
+            <div>
+              <button class="btn-primary" type="button" data-add-photos>
+                Add more photos
+              </button>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                class="visually-hidden"
+                data-add-photos-input
+              />
+            </div>
+            <p class="gallery-note">
+              Pick any image files on your device and they will appear right
+              here instantly.
+            </p>
+          </div>
           <div class="gallery-grid" data-gallery-grid></div>
 
           <div class="next-part">
