@@ -72,6 +72,69 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+// ===== Since-counter =====
+  const sinceCounters = document.querySelectorAll("[data-since-counter]");
+  const DEFAULT_START = "2024-12-05T00:00:00";
+
+  function calculateDuration(startDate) {
+    const now = new Date();
+    let years = now.getFullYear() - startDate.getFullYear();
+    let months = now.getMonth() - startDate.getMonth();
+    let days = now.getDate() - startDate.getDate();
+
+    if (days < 0) {
+      const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+      days += prevMonth.getDate();
+      months -= 1;
+    }
+
+    if (months < 0) {
+      months += 12;
+      years -= 1;
+    }
+
+    const anchor = new Date(startDate);
+    anchor.setFullYear(startDate.getFullYear() + years);
+    anchor.setMonth(startDate.getMonth() + months);
+    anchor.setDate(startDate.getDate() + days);
+
+    const remainingMs = Math.max(0, now - anchor);
+    const hours = Math.floor(remainingMs / 3600000);
+    const minutes = Math.floor((remainingMs % 3600000) / 60000);
+    const seconds = Math.floor((remainingMs % 60000) / 1000);
+
+    return { years, months, days, hours, minutes, seconds };
+  }
+
+  function updateCounters() {
+    sinceCounters.forEach((counter) => {
+      const startString = counter.dataset.counterStart || DEFAULT_START;
+      const startDate = new Date(startString);
+      if (Number.isNaN(startDate.getTime())) return;
+
+      const parts = calculateDuration(startDate);
+      const mappings = {
+        "[data-counter-years]": parts.years,
+        "[data-counter-months]": parts.months,
+        "[data-counter-days]": parts.days,
+        "[data-counter-hours]": parts.hours,
+        "[data-counter-minutes]": parts.minutes,
+        "[data-counter-seconds]": parts.seconds,
+      };
+
+      Object.entries(mappings).forEach(([selector, value]) => {
+        const el = counter.querySelector(selector);
+        if (el) {
+          el.textContent = value;
+        }
+      });
+    });
+  }
+
+  if (sinceCounters.length) {
+    updateCounters();
+    setInterval(updateCounters, 1000);
+  }
 
   // ===== Password gate + intro sequence (index page only) =====
   const gateEl = document.getElementById("gate");
