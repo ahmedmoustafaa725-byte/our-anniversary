@@ -613,6 +613,33 @@ function initChatSequence(options) {
     }
 
     renderGallery();
+    
 
+  }
+  // ===== Back to top =====
+  const backToTopButtons = document.querySelectorAll(".back-to-top");
+
+  function handleBackToTopVisibility() {
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+    backToTopButtons.forEach((btn) => {
+      const offset = Math.min(scrollY * 0.02, 90);
+      btn.style.bottom = 22 + offset + "px";
+      if (scrollY > 160) {
+        btn.classList.add("visible");
+      } else {
+        btn.classList.remove("visible");
+      }
+    });
+  }
+
+  if (backToTopButtons.length) {
+    backToTopButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+
+    window.addEventListener("scroll", handleBackToTopVisibility);
+    handleBackToTopVisibility();
   }
 });
