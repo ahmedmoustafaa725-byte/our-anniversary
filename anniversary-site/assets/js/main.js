@@ -442,7 +442,8 @@ function initChatSequence(options) {
    // ===== Gallery page enhancements =====
   const galleryGrid = document.querySelector("[data-gallery-grid]");
  
-
+ const addPhotosBtn = document.querySelector("[data-add-photos]");
+  const addPhotosInput = document.querySelector("[data-add-photos-input]");
   if (galleryGrid) {
     const featuredMemories = [
       {
@@ -520,7 +521,16 @@ function initChatSequence(options) {
       })),
     ];
 
+const addedObjectUrls = [];
 
+    function formatTitleFromFilename(name = "") {
+      const base = name
+        .replace(/\.[^.]+$/, "")
+        .replace(/[-_]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      return base || "New favorite memory";
+    }
 
     function buildGalleryCard(item) {
       const article = document.createElement("article");
@@ -548,7 +558,33 @@ function initChatSequence(options) {
         galleryGrid.appendChild(buildGalleryCard(item));
       });
     }
+function addNewPhotos(files) {
+      if (!files?.length) return;
+      Array.from(files).forEach((file) => {
+        const objectUrl = URL.createObjectURL(file);
+        addedObjectUrls.push(objectUrl);
+        const title = formatTitleFromFilename(file.name);
+        galleryItems.push({
+          src: objectUrl,
+          title,
+          alt: `Memory added right now: ${title}`,
+        });
+      });
+      renderGallery();
+      launchHeartBurst?.(18);
+    }
 
+    if (addPhotosBtn && addPhotosInput) {
+      addPhotosBtn.addEventListener("click", () => addPhotosInput.click());
+      addPhotosInput.addEventListener("change", (event) => {
+        addNewPhotos(event.target.files);
+        addPhotosInput.value = "";
+      });
+
+      window.addEventListener("beforeunload", () => {
+        addedObjectUrls.forEach((url) => URL.revokeObjectURL(url));
+      });
+    }
     renderGallery();
 
   }
