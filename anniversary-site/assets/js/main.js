@@ -97,9 +97,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return acc;
     }, {});
 
-    return new Date(
+    const cairoNow = new Date(
       `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}`
     );
+
+    // Shift back by one hour to mirror the requested display offset
+    return new Date(cairoNow.getTime() - 60 * 60 * 1000);
   }
 
   function parseEgyptDate(value) {
