@@ -733,6 +733,11 @@ header.hero {
   margin-top: 16px;
 }
 
+.nav-buttons.page-nav {
+  justify-content: center;
+  margin-top: 28px;
+}
+
 .btn-small {
   padding: 7px 14px;
   font-size: 0.8rem;
