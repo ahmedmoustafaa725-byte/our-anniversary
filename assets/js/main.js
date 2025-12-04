@@ -160,14 +160,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== Since-counter =====
   const sinceCounters = document.querySelectorAll("[data-since-counter]");
   const DEFAULT_START = "2024-12-05T00:00:00+02:00";
-  const EGYPT_TIMEZONE = "Africa/Cairo";
-  const ONE_HOUR_MS = 60 * 60 * 1000;
+  const EGYPT_OFFSET_MINUTES = 120; // UTC+02:00
 
   function getEgyptTime() {
-    // Convert "now" into Cairo wall time, then apply the requested one-hour back offset.
-    const cairoString = new Date().toLocaleString("en-US", { timeZone: EGYPT_TIMEZONE });
-    const cairoDate = new Date(cairoString);
-    return new Date(cairoDate.getTime() - ONE_HOUR_MS);
+    // Normalize "now" to UTC and then apply Egypt's fixed +02:00 offset.
+    const now = new Date();
+    const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+    return new Date(utcMs + EGYPT_OFFSET_MINUTES * 60000);
   }
 
   function parseEgyptDate(value) {
