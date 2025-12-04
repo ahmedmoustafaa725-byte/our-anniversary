@@ -115,49 +115,28 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     setMusicLabel(false);
   }
-// ===== Since-counter =====
+  // ===== Since-counter =====
   const sinceCounters = document.querySelectorAll("[data-since-counter]");
-  const DEFAULT_START = "2024-12-05T00:00:00";
+  const DEFAULT_START = "2024-12-05T00:00:00+02:00";
   const EGYPT_TIMEZONE = "Africa/Cairo";
-  const EGYPT_OFFSET = "+02:00";
+  const ONE_HOUR_MS = 60 * 60 * 1000;
 
   function getEgyptTime() {
-    const formatter = new Intl.DateTimeFormat("en-US", {
-      timeZone: EGYPT_TIMEZONE,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    });
-
-    const parts = formatter.formatToParts(new Date()).reduce((acc, part) => {
-      if (part.type !== "literal") {
-        acc[part.type] = part.value;
-      }
-      return acc;
-    }, {});
-
-    const cairoNow = new Date(
-      `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}`
-    );
-
-    // Shift back by one hour to mirror the requested display offset
-    return new Date(cairoNow.getTime() - 60 * 60 * 1000);
+    // Convert "now" into Cairo wall time, then apply the requested one-hour back offset.
+    const cairoString = new Date().toLocaleString("en-US", { timeZone: EGYPT_TIMEZONE });
+    const cairoDate = new Date(cairoString);
+    return new Date(cairoDate.getTime() - ONE_HOUR_MS);
   }
 
   function parseEgyptDate(value) {
     if (!value) return null;
-    const hasTimezone = /[zZ]|[+-]\d\d:\d\d$/.test(value);
-    const normalized = hasTimezone ? value : `${value}${EGYPT_OFFSET}`;
-    const parsed = new Date(normalized);
+    const parsed = new Date(value);
     return Number.isNaN(parsed.getTime()) ? null : parsed;
   }
 
   function calculateDuration(startDate) {
     const now = getEgyptTime();
+
     let years = now.getFullYear() - startDate.getFullYear();
     let months = now.getMonth() - startDate.getMonth();
     let days = now.getDate() - startDate.getDate();
@@ -178,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     anchor.setMonth(startDate.getMonth() + months);
     anchor.setDate(startDate.getDate() + days);
 
-    const remainingMs = Math.max(0, now - anchor);
+    const remainingMs = Math.max(0, now.getTime() - anchor.getTime());
     const hours = Math.floor(remainingMs / 3600000);
     const minutes = Math.floor((remainingMs % 3600000) / 60000);
     const seconds = Math.floor((remainingMs % 60000) / 1000);
