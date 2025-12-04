@@ -75,9 +75,43 @@ document.addEventListener("DOMContentLoaded", () => {
 // ===== Since-counter =====
   const sinceCounters = document.querySelectorAll("[data-since-counter]");
   const DEFAULT_START = "2024-12-05T00:00:00";
+  const EGYPT_TIMEZONE = "Africa/Cairo";
+  const EGYPT_OFFSET = "+02:00";
+
+  function getEgyptTime() {
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: EGYPT_TIMEZONE,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+
+    const parts = formatter.formatToParts(new Date()).reduce((acc, part) => {
+      if (part.type !== "literal") {
+        acc[part.type] = part.value;
+      }
+      return acc;
+    }, {});
+
+    return new Date(
+      `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}`
+    );
+  }
+
+  function parseEgyptDate(value) {
+    if (!value) return null;
+    const hasTimezone = /[zZ]|[+-]\d\d:\d\d$/.test(value);
+    const normalized = hasTimezone ? value : `${value}${EGYPT_OFFSET}`;
+    const parsed = new Date(normalized);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
 
   function calculateDuration(startDate) {
-    const now = new Date();
+    const now = getEgyptTime();
     let years = now.getFullYear() - startDate.getFullYear();
     let months = now.getMonth() - startDate.getMonth();
     let days = now.getDate() - startDate.getDate();
@@ -109,8 +143,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateCounters() {
     sinceCounters.forEach((counter) => {
       const startString = counter.dataset.counterStart || DEFAULT_START;
-      const startDate = new Date(startString);
-      if (Number.isNaN(startDate.getTime())) return;
+      const startDate = parseEgyptDate(startString);
+      if (!startDate || Number.isNaN(startDate.getTime())) return;
 
       const parts = calculateDuration(startDate);
       const mappings = {
