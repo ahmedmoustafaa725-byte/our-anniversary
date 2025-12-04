@@ -495,7 +495,8 @@ function initChatSequence(options) {
       setTimeout(() => heart.remove(), 9000);
     }
 
-    whyBtn.addEventListener("click", () => {
+     whyBtn.addEventListener("click", (event) => {
+      event.preventDefault();
       const reason = LOVE_REASONS[reasonIndex];
       whyDisplay.textContent = reason;
       reasonIndex = (reasonIndex + 1) % LOVE_REASONS.length;
