@@ -395,7 +395,7 @@ function initChatSequence(options) {
     sequenceSelector: "#life-chat-sequence",
     buttonId: "chat-sequence-btn",
     finalHold: true,
-    finalHoldText: "Hold to hear her answer",
+    finalHoldText: "Hold to hear the answer ✨",
     completedText: "This moment changed everything 💞, I can call you MINE!!",
   });
   // ===== Unlock Part 2 (story content on index) =====
