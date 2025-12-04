@@ -617,6 +617,34 @@ function initChatSequence(options) {
     
 
   }
+
+  // ===== Page navigation highlighting =====
+  const navPills = Array.from(document.querySelectorAll(".nav-buttons .nav-pill"));
+
+  function setActiveNav(target) {
+    navPills.forEach((btn) => btn.classList.remove("is-active"));
+    if (target) target.classList.add("is-active");
+  }
+
+  if (navPills.length) {
+    const currentPath = window.location.pathname.split("/").pop() || "index.html";
+
+    const matchingNav = navPills.find((btn) => {
+      const href = btn.getAttribute("href");
+      if (!href) return false;
+      const hrefFile = href.split("/").pop();
+      return hrefFile === currentPath || (currentPath === "" && hrefFile === "index.html");
+    });
+
+    setActiveNav(matchingNav || null);
+
+    navPills.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        setActiveNav(btn);
+      });
+    });
+  }
+
   // ===== Back to top =====
   const backToTopButtons = document.querySelectorAll(".back-to-top");
 
