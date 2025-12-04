@@ -81,10 +81,48 @@ document.addEventListener("DOMContentLoaded", () => {
     music.pause();
     music.currentTime = 0;
     music.src = src;
+    if (musicSelect && musicSelect.value !== src) {
+      musicSelect.value = src;
+    }
     if (wasPlaying) {
       playMusic();
     } else {
       setMusicLabel(false);
+    }
+  }
+
+  const PLAYLIST_ORDER = [
+    "music/our_song.mp3",
+    "music/here-with-me.mp3",
+    "music/kalam.mp3",
+    "music/baadem-alby.mp3",
+  ];
+
+  const playlist = musicSelect
+    ? PLAYLIST_ORDER.map((track) => {
+        const option = Array.from(musicSelect.options || []).find(
+          (opt) => opt.value === track
+        );
+        return option ? option.value : null;
+      }).filter(Boolean)
+    : [];
+
+  function findPlaylistIndex(src) {
+    if (!src) return -1;
+    return playlist.findIndex((track) => src.includes(track));
+  }
+
+  function playNextTrack() {
+    if (!music || !playlist.length) return;
+
+    const currentSrc = music.currentSrc || music.src;
+    const currentIndex = findPlaylistIndex(currentSrc);
+    const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % playlist.length;
+    const nextTrack = playlist[nextIndex];
+
+    if (nextTrack) {
+      setMusicSource(nextTrack);
+      playMusic();
     }
   }
 
@@ -111,6 +149,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!selected) return;
       setMusicSource(selected.value);
       setMusicLabel(!music.paused);
+    });
+
+    music.addEventListener("ended", () => {
+      playNextTrack();
     });
   } else {
     setMusicLabel(false);
