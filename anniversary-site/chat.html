@@ -12,10 +12,19 @@
   <div class="heart-pop-layer" id="heart-pop-layer"></div>
 
   <div class="music-control">
-    <button class="music-btn paused" id="music-btn">
-      <div class="music-dot"></div>
-      <span id="music-label">Play our song</span>
-    </button>
+    <div class="music-picker">
+      <label for="music-select" class="music-select-label">Pick our song:</label>
+      <select id="music-select" class="music-select" aria-label="Select a song to play">
+        <option value="music/our_song.mp3" data-label="our song" selected>Our song</option>
+        <option value="music/kalam.mp3" data-label="Kalam">Kalam</option>
+        <option value="music/here-with-me.mp3" data-label="Here with me">Here with me</option>
+        <option value="music/baadem-alby.mp3" data-label="Baadem alby">Baadem alby</option>
+      </select>
+      <button class="music-btn paused" id="music-btn">
+        <div class="music-dot"></div>
+        <span id="music-label">Play our song</span>
+      </button>
+    </div>
   </div>
 
   <main id="main-content">
@@ -27,10 +36,10 @@
           Before the letters and the gallery, there was just you, me, and a couple of messages that changed everything.
           Relive those chats here, then keep going to the rest of our story.
         </p>
-         <div
+        <div
           class="love-counter"
           data-since-counter
-          data-counter-start="2024-12-05T00:00:00"
+          data-counter-start="2024-12-05T00:00:00+02:00"
         >
           <p class="counter-label">Time since 05.12.2024</p>
           <div class="counter-values">
@@ -178,7 +187,15 @@
       One year down, forever to go. 💫
     </footer>
   </main>
-<button class="back-to-top" type="button" aria-label="Back to top">
+
+  <div class="nav-buttons page-nav">
+    <a href="chat.html" class="nav-pill">To our Chats</a>
+    <a href="story.html" class="nav-pill">To our story</a>
+    <a href="gallery.html" class="nav-pill">To our gallery</a>
+    <a href="love-words.html" class="nav-pill">To our Love Tree</a>
+    <a href="my-future-plan.html" class="nav-pill">To our Future Plan</a>
+  </div>
+  <button class="back-to-top" type="button" aria-label="Back to top">
     ↑ Back to top
   </button>
   <audio id="bg-music" src="music/our_song.mp3" preload="auto" loop></audio>

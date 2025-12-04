@@ -41,6 +41,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const music = document.getElementById("bg-music");
   const musicBtn = document.getElementById("music-btn");
   const musicLabel = document.getElementById("music-label");
+  const musicSelect = document.getElementById("music-select");
+
+  function getSelectedSongLabel() {
+    if (!musicSelect || !musicSelect.selectedOptions.length) return "our song";
+    return musicSelect.selectedOptions[0].dataset.label || "our song";
+  }
+
+  function setMusicLabel(isPlaying) {
+    if (!musicLabel) return;
+    const title = getSelectedSongLabel();
+    const action = isPlaying ? "Pause" : "Play";
+    musicLabel.textContent = title ? `${action} ${title}` : `${action} our song`;
+  }
 
   function playMusic() {
     if (!music || !musicBtn || !musicLabel) return;
@@ -48,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .play()
       .then(() => {
         musicBtn.classList.remove("paused");
-        musicLabel.textContent = "Pause our song";
+        setMusicLabel(true);
       })
       .catch(() => {
         // Autoplay blocked by browser – just ignore
@@ -59,7 +72,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!music || !musicBtn || !musicLabel) return;
     music.pause();
     musicBtn.classList.add("paused");
-    musicLabel.textContent = "Play our song";
+    setMusicLabel(false);
+  }
+
+  function setMusicSource(src) {
+    if (!music || !src) return;
+    const wasPlaying = !music.paused;
+    music.pause();
+    music.currentTime = 0;
+    music.src = src;
+    if (wasPlaying) {
+      playMusic();
+    } else {
+      setMusicLabel(false);
+    }
   }
 
   if (musicBtn) {
@@ -72,12 +98,45 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-// ===== Since-counter =====
+
+  if (musicSelect && music) {
+    const initialOption = musicSelect.selectedOptions[0];
+    if (initialOption && initialOption.value) {
+      setMusicSource(initialOption.value);
+    }
+    setMusicLabel(false);
+
+    musicSelect.addEventListener("change", (event) => {
+      const selected = event.target.selectedOptions[0];
+      if (!selected) return;
+      setMusicSource(selected.value);
+      setMusicLabel(!music.paused);
+    });
+  } else {
+    setMusicLabel(false);
+  }
+  // ===== Since-counter =====
   const sinceCounters = document.querySelectorAll("[data-since-counter]");
-  const DEFAULT_START = "2024-12-05T00:00:00";
+  const DEFAULT_START = "2024-12-05T00:00:00+02:00";
+  const EGYPT_TIMEZONE = "Africa/Cairo";
+  const ONE_HOUR_MS = 60 * 60 * 1000;
+
+  function getEgyptTime() {
+    // Convert "now" into Cairo wall time, then apply the requested one-hour back offset.
+    const cairoString = new Date().toLocaleString("en-US", { timeZone: EGYPT_TIMEZONE });
+    const cairoDate = new Date(cairoString);
+    return new Date(cairoDate.getTime() - ONE_HOUR_MS);
+  }
+
+  function parseEgyptDate(value) {
+    if (!value) return null;
+    const parsed = new Date(value);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
 
   function calculateDuration(startDate) {
-    const now = new Date();
+    const now = getEgyptTime();
+
     let years = now.getFullYear() - startDate.getFullYear();
     let months = now.getMonth() - startDate.getMonth();
     let days = now.getDate() - startDate.getDate();
@@ -98,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     anchor.setMonth(startDate.getMonth() + months);
     anchor.setDate(startDate.getDate() + days);
 
-    const remainingMs = Math.max(0, now - anchor);
+    const remainingMs = Math.max(0, now.getTime() - anchor.getTime());
     const hours = Math.floor(remainingMs / 3600000);
     const minutes = Math.floor((remainingMs % 3600000) / 60000);
     const seconds = Math.floor((remainingMs % 60000) / 1000);
@@ -109,8 +168,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateCounters() {
     sinceCounters.forEach((counter) => {
       const startString = counter.dataset.counterStart || DEFAULT_START;
-      const startDate = new Date(startString);
-      if (Number.isNaN(startDate.getTime())) return;
+      const startDate = parseEgyptDate(startString);
+      if (!startDate || Number.isNaN(startDate.getTime())) return;
 
       const parts = calculateDuration(startDate);
       const mappings = {
@@ -135,6 +194,51 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCounters();
     setInterval(updateCounters, 1000);
   }
+
+  // ===== Future plan photo auto-loader =====
+  const weddingSlot = document.querySelector("[data-wedding-slot]");
+
+  function showWeddingPhoto(src) {
+    if (!weddingSlot) return;
+    const image = weddingSlot.querySelector("[data-wedding-img]");
+    const placeholder = weddingSlot.querySelector("[data-wedding-placeholder]");
+    const note = weddingSlot.querySelector("[data-wedding-note]");
+
+    if (image) {
+      image.src = src;
+      image.classList.add("visible");
+    }
+    if (placeholder) {
+      placeholder.classList.add("hidden");
+    }
+    if (note) {
+      note.classList.add("has-photo");
+    }
+  }
+
+  function tryLoadWeddingPhoto() {
+    if (!weddingSlot) return;
+
+    const possiblePaths = [
+      "images/wedding.jpg",
+      "images/wedding.jpeg",
+      "images/wedding.png",
+      "images/wedding.webp",
+    ];
+
+    const attempt = (index) => {
+      if (index >= possiblePaths.length) return;
+      const candidate = possiblePaths[index];
+      const testImg = new Image();
+      testImg.onload = () => showWeddingPhoto(candidate);
+      testImg.onerror = () => attempt(index + 1);
+      testImg.src = `${candidate}?t=${Date.now()}`;
+    };
+
+    attempt(0);
+  }
+
+  tryLoadWeddingPhoto();
 
   // ===== Password gate + intro sequence (index page only) =====
   const gateEl = document.getElementById("gate");
@@ -361,7 +465,7 @@ function initChatSequence(options) {
     sequenceSelector: "#life-chat-sequence",
     buttonId: "chat-sequence-btn",
     finalHold: true,
-    finalHoldText: "Hold to hear her answer",
+    finalHoldText: "Hold to hear the answer ✨",
     completedText: "This moment changed everything 💞, I can call you MINE!!",
   });
   // ===== Unlock Part 2 (story content on index) =====
@@ -577,9 +681,7 @@ function initChatSequence(options) {
     const galleryItems = [
       ...featuredMemories,
       ...extraPhotos.map((file) => ({
-
         src: `images/${file}`,
-          title: file.replace(/\.[^.]+$/, "").replace(/[-_]/g, " "),
         alt: "One of our favorite memories",
       })),
     ];
@@ -590,16 +692,18 @@ function initChatSequence(options) {
       const article = document.createElement("article");
       article.className = "gallery-card";
 
-      const heading = document.createElement("h3");
-      heading.textContent = item.title || "A favorite memory";
-      article.appendChild(heading);
+      if (item.title) {
+        const heading = document.createElement("h3");
+        heading.textContent = item.title;
+        article.appendChild(heading);
+      }
 
       const wrap = document.createElement("div");
       wrap.className = "gallery-img-wrap";
 
       const img = document.createElement("img");
       img.src = item.src;
-      img.alt = item.alt || item.title;
+      img.alt = item.alt || item.title || "A favorite memory";
       wrap.appendChild(img);
 
       article.appendChild(wrap);
@@ -617,6 +721,34 @@ function initChatSequence(options) {
     
 
   }
+
+  // ===== Page navigation highlighting =====
+  const navPills = Array.from(document.querySelectorAll(".nav-buttons .nav-pill"));
+
+  function setActiveNav(target) {
+    navPills.forEach((btn) => btn.classList.remove("is-active"));
+    if (target) target.classList.add("is-active");
+  }
+
+  if (navPills.length) {
+    const currentPath = window.location.pathname.split("/").pop() || "index.html";
+
+    const matchingNav = navPills.find((btn) => {
+      const href = btn.getAttribute("href");
+      if (!href) return false;
+      const hrefFile = href.split("/").pop();
+      return hrefFile === currentPath || (currentPath === "" && hrefFile === "index.html");
+    });
+
+    setActiveNav(matchingNav || null);
+
+    navPills.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        setActiveNav(btn);
+      });
+    });
+  }
+
   // ===== Back to top =====
   const backToTopButtons = document.querySelectorAll(".back-to-top");
 

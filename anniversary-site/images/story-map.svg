@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-label="Stylized map of Egypt">
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0b1021"/>
+      <stop offset="100%" stop-color="#070a13"/>
+    </linearGradient>
+    <linearGradient id="dunes" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f4d384" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#d9b96d" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#b98c55" stop-opacity="0.82"/>
+    </linearGradient>
+    <linearGradient id="nile" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6fd5ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#2e7bbf" stop-opacity="0.7"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="700" fill="url(#sky)"/>
+  <circle cx="170" cy="120" r="48" fill="#f5c177" fill-opacity="0.32"/>
+  <circle cx="220" cy="90" r="26" fill="#ffc66d" fill-opacity="0.25"/>
+  <g filter="url(#shadow)">
+    <path d="M321 125h358l40 42h114l-4 64-9 26-8 32-8 51-4 78-26 71-14 34-40 18-78 8-88-14-59-4-94 12-58 2-62-12-28-40-26-90-16-68 8-56-10-52-18-54 26-22 46-56 50-51Z" fill="url(#dunes)" stroke="#e0c385" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M642 168c-6 16-10 42-12 67-2 20-8 42-16 60-12 30-8 74-8 98 0 24-14 58-22 70-15 22-84 18-108-6-9-10-10-30-11-48s-5-43-11-64c-6-22-10-44-10-64 0-18 10-46 26-68 32-44 61-55 95-62 46-10 72-10 77-3Z" fill="url(#nile)" opacity="0.92"/>
+    <path d="M570 174c-4 10-6 23-6 34 0 14 2 32-4 44-5 10-19 18-31 26-16 11-26 21-40 30-15 11-28 20-28 38 0 17 17 27 32 34 17 8 38 12 54 21 13 7 23 18 37 24 18 7 42 9 61 5 16-3 25-10 32-22 8-13 7-27 4-40-6-26-17-48-17-76 0-24 2-48 6-70 2-12 0-28-8-36-15-14-62-17-92-12Z" fill="#7dd4ff" fill-opacity="0.65"/>
+  </g>
+  <path d="M840 192c58-20 126 0 162 40 46 52 48 130 20 196-20 48-56 90-100 118-42 26-90 32-140 28-40-4-76-22-103-50-16-18-30-40-34-65-6-40 0-80 20-114 24-42 68-82 110-102 18-8 42-16 65-26Z" fill="#1d2942" fill-opacity="0.3"/>
+  <path d="M198 338c-40 20-76 54-96 94-18 36-18 84 10 116 46 52 118 78 186 74 44-2 90-18 124-48 22-18 40-44 46-72 7-28 2-62-18-82-20-20-52-24-80-30-44-10-86-32-132-34-14 0-28 4-40 10Z" fill="#112035" fill-opacity="0.35"/>
+</svg>
