@@ -1541,6 +1541,36 @@ border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 12px 24px rgba(255, 92, 141, 0.5);
 }
 
+.future-plan-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.future-photo-slot {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255, 92, 141, 0.12), rgba(255, 166, 201, 0.14));
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  border-radius: 18px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.28);
+}
+
+.future-photo-placeholder {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+}
+
+.future-photo-note {
+  color: var(--text-muted);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
 footer {
   padding: 30px 20px 20px;
   text-align: center;
