@@ -348,13 +348,13 @@ function initChatSequence(options) {
   initChatSequence({
     sequenceSelector: "#first-chat-sequence",
     buttonId: "first-chat-btn",
-    completedText: "Our first chat was pure sweetness ❤️",
+    completedText: "That was Our first chat, you were so Cute!",
   });
 
   initChatSequence({
     sequenceSelector: "#beginning-chat-sequence",
     buttonId: "beginning-chat-btn",
-    completedText: "This is where everything began ✨",
+    completedText: "This is where everything began Mi Amour",
   });
 
   initChatSequence({
@@ -362,7 +362,7 @@ function initChatSequence(options) {
     buttonId: "chat-sequence-btn",
     finalHold: true,
     finalHoldText: "Hold to hear her answer",
-    completedText: "This moment changed everything 💞",
+    completedText: "This moment changed everything 💞, I can call you MINE!!",
   });
   // ===== Unlock Part 2 (story content on index) =====
   const storyTrigger = document.getElementById("story-trigger");
