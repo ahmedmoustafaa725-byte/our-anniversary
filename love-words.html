@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Love Words</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/love-words.css" />
+</head>
+<body>
+  <div class="heart-bg" id="heart-bg"></div>
+  <div class="heart-pop-layer" id="heart-pop-layer"></div>
+
+  <div class="music-control">
+    <div class="music-picker">
+      <label for="music-select" class="music-select-label">Pick our song:</label>
+      <select id="music-select" class="music-select" aria-label="Select a song to play">
+        <option value="music/our_song.mp3" data-label="our song" selected>Our song</option>
+        <option value="music/kalam.mp3" data-label="Kalam">Kalam</option>
+        <option value="music/here-with-me.mp3" data-label="Here with me">Here with me</option>
+        <option value="music/baadem-alby.mp3" data-label="Baadem alby">Baadem alby</option>
+      </select>
+      <button class="music-btn paused" id="music-btn">
+        <div class="music-dot"></div>
+        <span id="music-label">Play our song</span>
+      </button>
+    </div>
+  </div>
+
+  <main id="main-content" class="hidden">
+    <header class="simple-hero love-hero">
+      <div class="simple-hero-inner">
+       <p class="simple-hero-label">How your love unfolded with me</p>
+<h1 class="simple-hero-title">Every word, every whisper, every feeling</h1>
+<p class="simple-hero-text">
+  This is our little corner — where I keep the names you gifted me, the words
+  that became ours, and the feelings that grew between them. Each one marks a
+  moment of us… how your love deepened, and how every new word pulled me closer.
+</p>
+      </div>
+    </header>
+
+    <section class="section-inner love-section">
+      <div class="section-label">Chapter of words</div>
+      <h2 class="section-title">How your love for me grew, written in sequence.</h2>
+      <p class="section-sub">
+        Every part of this journey meant something to me. I loved it all… and through every step, I waited to become your everything.
+      </p>
+
+      <ol class="sequence-list">
+        <li class="sequence-card">Namla</li>
+        <li class="sequence-card">Sorsar</li>
+        <li class="sequence-card">Serer</li>
+        <li class="sequence-card">Dolab</li>
+        <li class="sequence-card">El-Maadi</li>
+        <li class="sequence-card">El-Qahira</li>
+        <li class="sequence-card">El Donia Kolaha</li>
+        <li class="sequence-card">Albk</li>
+        <li class="sequence-card">Rohk</li>
+      </ol>
+    </section>
+
+    <section class="section-inner love-section" id="word-tree">
+      <div class="section-label">New words unlocked</div>
+      <h2 class="section-title">Our words tree</h2>
+      <p class="section-sub">
+        Every time you give me a new word, I want to keep it safe forever. I started a
+        little tree for the ones we already have
+      </p>
+
+      <div class="love-tree">
+        <div class="tree-root">You + Me</div>
+        <div class="tree-grid" id="love-tree-grid">
+        </div>
+      </div>
+
+      <form class="word-form" id="word-form">
+        <div class="input-wrapper">
+          <label for="new-word-input">Add a new unlocked word</label>
+          <input
+            id="new-word-input"
+            type="text"
+            placeholder="Add the newly unlocked words"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <button class="btn-primary" type="submit">Grow the tree</button>
+        <p class="form-note" id="form-status">Ready to Unlock the next word.</p>
+      </form>
+    </section>
+  </main>
+
+  <div class="nav-buttons page-nav">
+    <a href="chat.html" class="nav-pill">To our Chats</a>
+    <a href="story.html" class="nav-pill">To our story</a>
+    <a href="gallery.html" class="nav-pill">To our gallery</a>
+    <a href="love-words.html" class="nav-pill">To our Love Tree</a>
+    <a href="my-future-plan.html" class="nav-pill">To our Future Plan</a>
+  </div>
+  <button class="back-to-top" type="button" aria-label="Back to top">
+    ↑ Back to top
+  </button>
+
+  <audio id="bg-music" src="music/our_song.mp3" preload="auto"></audio>
+
+  <script src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/love-words.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Our 1st Anniversary – Chats</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <div class="heart-bg" id="heart-bg"></div>
+  <div class="heart-pop-layer" id="heart-pop-layer"></div>
+
+  <div class="music-control">
+    <div class="music-picker">
+      <label for="music-select" class="music-select-label">Pick our song:</label>
+      <select id="music-select" class="music-select" aria-label="Select a song to play">
+        <option value="music/our_song.mp3" data-label="our song" selected>Our song</option>
+        <option value="music/kalam.mp3" data-label="Kalam">Kalam</option>
+        <option value="music/here-with-me.mp3" data-label="Here with me">Here with me</option>
+        <option value="music/baadem-alby.mp3" data-label="Baadem alby">Baadem alby</option>
+      </select>
+      <button class="music-btn paused" id="music-btn">
+        <div class="music-dot"></div>
+        <span id="music-label">Play our song</span>
+      </button>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <header class="simple-hero">
+      <div class="simple-hero-inner">
+        <p class="simple-hero-label">Part 1 · How it all started</p>
+        <h1 class="simple-hero-title">Our first messages, our first “us” 💬</h1>
+        <p class="simple-hero-text">
+          Before the letters and the gallery, there was just you, me, and a couple of messages that changed everything.
+          Relive those chats here, then keep going to the rest of our story.
+        </p>
+        <div
+          class="love-counter"
+          data-since-counter
+          data-counter-start="2024-12-05T00:00:00+02:00"
+        >
+          <p class="counter-label">Time since 05.12.2024</p>
+          <div class="counter-values">
+            <span class="counter-number" data-counter-years>0</span>
+            <span class="counter-unit">years</span>
+            <span class="counter-number" data-counter-months>0</span>
+            <span class="counter-unit">months</span>
+            <span class="counter-number" data-counter-days>0</span>
+            <span class="counter-unit">days</span>
+            <span class="counter-number" data-counter-hours>0</span>
+            <span class="counter-unit">hours</span>
+            <span class="counter-number" data-counter-minutes>0</span>
+            <span class="counter-unit">minutes</span>
+            <span class="counter-number" data-counter-seconds>0</span>
+            <span class="counter-unit">seconds</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="chats">
+      <div class="section-inner">
+        <div class="section-label">Chapter 0</div>
+        <h2 class="section-title">Where our story started</h2>
+        <p class="section-sub">
+          Before dates, calls and “bahebk”, there were just messages.
+          These are the ones that made everything begin.
+        </p>
+
+        <div class="chat-grid">
+          <article class="chat-card">
+            <h3 class="chat-title">Our first chat · 14 June 2022</h3>
+            <p class="chat-sub">
+              The very first time you texted me. You had no idea that this simple message
+              would one day turn into long chats and calls.
+            </p>
+            <div class="chat-window life-chat">
+              <div class="chat-sequence" id="first-chat-sequence">
+                <div class="chat-bubble hers chat-step">
+                  <span class="chat-name">Sama</span>
+                  <p>
+                    M3lsh ya Ahmed mlh2t4 ashkorko embarh bs shukran awee 3shan wsltone
+                    t3btk m3aya
+                  </p>
+                </div>
+                <div class="chat-bubble mine chat-step">
+                  <span class="chat-name">Ahmed</span>
+                  <p>Wala yhmk ya Sama, 3ala eh bs la shokr 3ala wageb</p>
+                </div>
+                <div class="chat-bubble hers chat-step">
+                  <span class="chat-name">Sama</span>
+                  <p>❤️❤️❤️❤️</p>
+                </div>
+              </div>
+              <small class="chat-sequence-hint">Press the button to replay.</small>
+            </div>
+            <button class="btn-primary btn-small chat-progress-btn" id="first-chat-btn">
+              Start the chat
+            </button>
+          </article>
+
+          <article class="chat-card">
+            <h3 class="chat-title">The chat where everything began</h3>
+            <p class="chat-sub">
+              From simple messages to hearts and voice notes…
+              this is where things started to feel different.
+            </p>
+            <div class="chat-window life-chat">
+              <div class="chat-sequence" id="beginning-chat-sequence">
+                <div class="chat-bubble mine chat-step">
+                  <span class="chat-name">Ahmed</span>
+                  <p>Replied to your story with 🔥</p>
+                </div>
+                <div class="chat-bubble hers chat-step">
+                  <span class="chat-name">Sama</span>
+                  <p>❤❤❤</p>
+                </div>
+                <div class="chat-bubble mine chat-step">
+                  <span class="chat-name">Ahmed</span>
+                  <p>❤❤❤</p>
+                </div>
+                <div class="chat-bubble mine chat-step">
+                  <span class="chat-name">Ahmed</span>
+                  <p>Enty b2alk ad eh bttmrni ?</p>
+                </div>
+                <div class="chat-bubble hers chat-step">
+                  <span class="chat-name">Sama</span>
+                  <p>Voice note · 1:00</p>
+                </div>
+                <div class="chat-bubble hers chat-step">
+                  <span class="chat-name">Sama</span>
+                  <p>Voice note · 0:52</p>
+                </div>
+              </div>
+              <small class="chat-sequence-hint">Tap through every beat of the chat where it all began.</small>
+            </div>
+            <button class="btn-primary btn-small chat-progress-btn" id="beginning-chat-btn">
+              Start the chat
+            </button>
+          </article>
+
+          <article class="chat-card">
+            <h3 class="chat-title">The chat that changed my life</h3>
+            <p class="chat-sub">
+              3:14 AM. I asked a question that would change everything.
+            </p>
+
+            <div class="chat-window life-chat">
+              <div class="chat-sequence" id="life-chat-sequence">
+                <div class="chat-bubble mine chat-step">
+                  <span class="chat-name">Ahmed · 3:13 AM</span>
+                  <p>Sama ana bahebk </p>
+                </div>
+                <div class="chat-bubble hers chat-step">
+                  <span class="chat-name">Sama · 3:14 AM</span>
+                  <p>wna kman bhbk </p>
+                </div>
+                <div class="chat-bubble mine chat-step">
+                  <span class="chat-name">Ahmed · 3:14 AM</span>
+                  <p>Mowaf2a tb2i m3aya ?</p>
+                </div>
+                <div class="chat-bubble hers chat-step">
+                  <span class="chat-name">Sama · 3:14 AM</span>
+                  <p>mwf2aa</p>
+                </div>
+              </div>
+              <small class="chat-sequence-hint">Press the button below to relive each message exactly how it happened.</small>
+            </div>
+
+            <button class="btn-primary btn-small chat-progress-btn" id="chat-sequence-btn">
+              Start the chat
+            </button>
+          </article>
+        </div>
+
+        <div class="next-part">
+          <p>Ready for Part 2?</p>
+          <a class="btn-primary next-btn" href="story.html">Go to our story ✨</a>
+          <small class="next-note">Press to continue to Part 2, where the rest of our memories live.</small>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      One year down, forever to go. 💫
+    </footer>
+  </main>
+
+  <div class="nav-buttons page-nav">
+    <a href="chat.html" class="nav-pill">To our Chats</a>
+    <a href="story.html" class="nav-pill">To our story</a>
+    <a href="gallery.html" class="nav-pill">To our gallery</a>
+    <a href="love-words.html" class="nav-pill">To our Love Tree</a>
+    <a href="my-future-plan.html" class="nav-pill">To our Future Plan</a>
+  </div>
+  <button class="back-to-top" type="button" aria-label="Back to top">
+    ↑ Back to top
+  </button>
+  <audio id="bg-music" src="music/our_song.mp3" preload="auto"></audio>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
