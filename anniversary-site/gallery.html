@@ -11,10 +11,19 @@
   <div class="heart-bg" id="heart-bg"></div>
 
   <div class="music-control">
-    <button class="music-btn paused" id="music-btn">
-      <div class="music-dot"></div>
-      <span id="music-label">Play our song</span>
-    </button>
+    <div class="music-picker">
+      <label for="music-select" class="music-select-label">Pick our song:</label>
+      <select id="music-select" class="music-select" aria-label="Select a song to play">
+        <option value="music/our_song.mp3" data-label="our song" selected>Our song</option>
+        <option value="music/kalam.mp3" data-label="Kalam">Kalam</option>
+        <option value="music/here-with-me.mp3" data-label="Here with me">Here with me</option>
+        <option value="music/baadem-alby.mp3" data-label="Baadem alby">Baadem alby</option>
+      </select>
+      <button class="music-btn paused" id="music-btn">
+        <div class="music-dot"></div>
+        <span id="music-label">Play our song</span>
+      </button>
+    </div>
   </div>
 
   <main>
@@ -23,7 +32,7 @@
         <p class="simple-hero-label">Part 3 · Our gallery</p>
         <h1 class="simple-hero-title">Little moments, big feelings 📷</h1>
         <p class="simple-hero-text">
-          A small gallery now, a bigger one later.  
+          A small gallery now, a bigger one later.
           Because I plan to fill a whole life with pictures of us.
         </p>
       </div>
@@ -38,22 +47,25 @@
             up here automatically. Want to add even more? Drop them in and use
             the button below to place them right into our gallery.
           </p>
-        
-          <div class="gallery-grid" data-gallery-grid></div>
 
-          <div class="next-part">
-            <a href="story.html" class="btn-ghost">Back to Part 2 (our story)</a>
-            <a href="chat.html" class="btn-ghost">Back to Part 1 (our chats)</a>
-          </div>
+          <div class="gallery-grid" data-gallery-grid></div>
         </div>
       </section>
 
       <footer>
-        Made with <span>love</span> for you.  
+        Made with <span>love</span> for you.
         This gallery is only the beginning. 💖
       </footer>
   </main>
-<button class="back-to-top" type="button" aria-label="Back to top">
+
+  <div class="nav-buttons page-nav">
+    <a href="chat.html" class="nav-pill">To our Chats</a>
+    <a href="story.html" class="nav-pill">To our story</a>
+    <a href="gallery.html" class="nav-pill">To our gallery</a>
+    <a href="love-words.html" class="nav-pill">To our Love Tree</a>
+    <a href="my-future-plan.html" class="nav-pill">To our Future Plan</a>
+  </div>
+  <button class="back-to-top" type="button" aria-label="Back to top">
     ↑ Back to top
   </button>
   <audio id="bg-music" src="music/our_song.mp3" preload="auto" loop></audio>
