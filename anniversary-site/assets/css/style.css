@@ -1000,16 +1000,19 @@ header.hero {
 
 .map-visual {
   position: relative;
- background: linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.35)),
-    url("../../images/egypt-map.svg");
+  background: linear-gradient(
+      180deg,
+      rgba(5, 7, 14, 0.45),
+      rgba(3, 4, 10, 0.65)
+    ),
+    url("../../images/story-map.svg");
   background-size: cover;
-  background-position: center;  border-radius: 18px;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 18px;
   min-height: 320px;
   overflow: hidden;
-
-
-  
-border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 

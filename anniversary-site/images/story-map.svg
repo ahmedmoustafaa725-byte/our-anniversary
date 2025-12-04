@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-label="Stylized world map background">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f1627" />
+      <stop offset="100%" stop-color="#080c16" />
+    </linearGradient>
+    <linearGradient id="landGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6ac8ff" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#ff6cae" stop-opacity="0.28" />
+    </linearGradient>
+    <radialGradient id="glow" cx="60%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#d77bff" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#d77bff" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0H0V60" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="1200" height="700" fill="url(#bgGradient)" />
+  <rect width="1200" height="700" fill="url(#grid)" />
+  <rect width="1200" height="700" fill="url(#glow)" />
+  <g fill="url(#landGradient)" stroke="#b6d7ff" stroke-opacity="0.08" stroke-width="3">
+    <!-- Americas -->
+    <path d="M175 180c35-40 105-70 155-58 52 13 65 80 45 124-10 22-35 32-38 60-3 32 30 70 12 98-24 36-94-5-132 16-46 25-26 86-56 120-20 22-62 26-87 8-29-21-32-64-25-98 9-42 40-77 60-117 15-29 8-63 20-94 12-33 36-58 46-89z" />
+    <!-- Europe & Africa -->
+    <path d="M520 155c35-23 90-26 132-18 34 6 67 26 101 24 36-2 64-30 100-32 34-2 70 14 90 41 27 37 18 92-16 123-22 20-59 21-79 43-22 25-16 67-40 88-28 25-74 15-109 30-41 18-69 70-115 65-40-4-64-50-101-67-32-15-73-2-101-26-24-21-25-59-19-90 6-33 24-64 50-86 28-24 64-37 97-55 34-19 65-46 110-40z" />
+    <!-- Asia -->
+    <path d="M810 220c46-30 107-27 156-5 37 17 61 55 94 78 33 23 82 26 101 60 15 27 5 64-18 86-30 28-79 21-117 33-38 12-67 45-104 58-43 15-93 6-136-12-40-17-83-39-104-78-18-34-15-80 10-110 25-31 67-44 94-72 24-25 37-61 64-82z" />
+    <!-- Middle East connection -->
+    <path d="M660 320c22-12 48-20 73-17 24 3 46 16 67 28 19 11 40 25 47 46 7 22-2 47-15 67-18 27-46 48-78 55-25 6-51 0-74-11-20-10-38-25-49-44-11-19-15-42-10-64 6-26 21-48 39-66z" />
+    <!-- Egypt focus glow -->
+    <circle cx="650" cy="360" r="38" fill="#ff9fcd" fill-opacity="0.16" stroke="#ff6cae" stroke-width="4" stroke-opacity="0.45" />
+  </g>
+</svg>
