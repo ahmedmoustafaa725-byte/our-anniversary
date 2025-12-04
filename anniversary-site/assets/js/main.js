@@ -611,9 +611,7 @@ function initChatSequence(options) {
     const galleryItems = [
       ...featuredMemories,
       ...extraPhotos.map((file) => ({
-
         src: `images/${file}`,
-          title: file.replace(/\.[^.]+$/, "").replace(/[-_]/g, " "),
         alt: "One of our favorite memories",
       })),
     ];
@@ -624,16 +622,18 @@ function initChatSequence(options) {
       const article = document.createElement("article");
       article.className = "gallery-card";
 
-      const heading = document.createElement("h3");
-      heading.textContent = item.title || "A favorite memory";
-      article.appendChild(heading);
+      if (item.title) {
+        const heading = document.createElement("h3");
+        heading.textContent = item.title;
+        article.appendChild(heading);
+      }
 
       const wrap = document.createElement("div");
       wrap.className = "gallery-img-wrap";
 
       const img = document.createElement("img");
       img.src = item.src;
-      img.alt = item.alt || item.title;
+      img.alt = item.alt || item.title || "A favorite memory";
       wrap.appendChild(img);
 
       article.appendChild(wrap);
