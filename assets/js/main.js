@@ -162,29 +162,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const DEFAULT_START = "2024-12-05T00:00:00+02:00";
   const EGYPT_OFFSET_MINUTES = 120; // UTC+02:00
 
-  function getEgyptTime() {
-    // Normalize "now" to UTC and then apply Egypt's fixed +02:00 offset.
-    const now = new Date();
-    const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+  function toEgyptDate(dateLike) {
+    const date = dateLike instanceof Date ? dateLike : new Date(dateLike);
+    if (Number.isNaN(date.getTime())) return null;
+    const utcMs = date.getTime();
     return new Date(utcMs + EGYPT_OFFSET_MINUTES * 60000);
   }
 
   function parseEgyptDate(value) {
     if (!value) return null;
-    const parsed = new Date(value);
-    return Number.isNaN(parsed.getTime()) ? null : parsed;
+    return toEgyptDate(value);
   }
 
   function calculateDuration(startDate) {
-    const now = getEgyptTime();
+    const now = toEgyptDate(Date.now());
 
-    let years = now.getFullYear() - startDate.getFullYear();
-    let months = now.getMonth() - startDate.getMonth();
-    let days = now.getDate() - startDate.getDate();
+    if (!now || !startDate) return null;
+
+    let years = now.getUTCFullYear() - startDate.getUTCFullYear();
+    let months = now.getUTCMonth() - startDate.getUTCMonth();
+    let days = now.getUTCDate() - startDate.getUTCDate();
 
     if (days < 0) {
-      const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-      days += prevMonth.getDate();
+      const prevMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 0));
+      days += prevMonth.getUTCDate();
       months -= 1;
     }
 
@@ -194,9 +195,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const anchor = new Date(startDate);
-    anchor.setFullYear(startDate.getFullYear() + years);
-    anchor.setMonth(startDate.getMonth() + months);
-    anchor.setDate(startDate.getDate() + days);
+    anchor.setUTCFullYear(startDate.getUTCFullYear() + years);
+    anchor.setUTCMonth(startDate.getUTCMonth() + months);
+    anchor.setUTCDate(startDate.getUTCDate() + days);
 
     const remainingMs = Math.max(0, now.getTime() - anchor.getTime());
     const hours = Math.floor(remainingMs / 3600000);
@@ -213,6 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!startDate || Number.isNaN(startDate.getTime())) return;
 
       const parts = calculateDuration(startDate);
+      if (!parts) return;
       const mappings = {
         "[data-counter-years]": parts.years,
         "[data-counter-months]": parts.months,
