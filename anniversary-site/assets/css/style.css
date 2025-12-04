@@ -154,6 +154,32 @@ img {
   z-index: 500;
 }
 
+.music-picker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.music-select-label {
+  color: #f3f1ff;
+  font-size: 0.78rem;
+  opacity: 0.8;
+}
+
+.music-select {
+  background: rgba(9, 9, 18, 0.9);
+  color: #fdfaff;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  outline: none;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}
+
 .music-btn {
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.22);

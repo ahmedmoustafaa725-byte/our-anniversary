@@ -11,10 +11,19 @@
   <div class="heart-bg" id="heart-bg"></div>
 
   <div class="music-control">
-    <button class="music-btn paused" id="music-btn">
-      <div class="music-dot"></div>
-      <span id="music-label">Play our song</span>
-    </button>
+    <div class="music-picker">
+      <label for="music-select" class="music-select-label">Pick our song:</label>
+      <select id="music-select" class="music-select" aria-label="Select a song to play">
+        <option value="music/our_song.mp3" data-label="our song" selected>Our song</option>
+        <option value="music/kalam.mp3" data-label="Kalam">Kalam</option>
+        <option value="music/here-with-me.mp3" data-label="Here with me">Here with me</option>
+        <option value="music/baadem-alby.mp3" data-label="Baadem alby">Baadem alby</option>
+      </select>
+      <button class="music-btn paused" id="music-btn">
+        <div class="music-dot"></div>
+        <span id="music-label">Play our song</span>
+      </button>
+    </div>
   </div>
 
   <main>

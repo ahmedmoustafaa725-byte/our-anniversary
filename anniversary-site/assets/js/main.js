@@ -41,6 +41,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const music = document.getElementById("bg-music");
   const musicBtn = document.getElementById("music-btn");
   const musicLabel = document.getElementById("music-label");
+  const musicSelect = document.getElementById("music-select");
+
+  function getSelectedSongLabel() {
+    if (!musicSelect || !musicSelect.selectedOptions.length) return "our song";
+    return musicSelect.selectedOptions[0].dataset.label || "our song";
+  }
+
+  function setMusicLabel(isPlaying) {
+    if (!musicLabel) return;
+    const title = getSelectedSongLabel();
+    const action = isPlaying ? "Pause" : "Play";
+    musicLabel.textContent = title ? `${action} ${title}` : `${action} our song`;
+  }
 
   function playMusic() {
     if (!music || !musicBtn || !musicLabel) return;
@@ -48,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .play()
       .then(() => {
         musicBtn.classList.remove("paused");
-        musicLabel.textContent = "Pause our song";
+        setMusicLabel(true);
       })
       .catch(() => {
         // Autoplay blocked by browser – just ignore
@@ -59,7 +72,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!music || !musicBtn || !musicLabel) return;
     music.pause();
     musicBtn.classList.add("paused");
-    musicLabel.textContent = "Play our song";
+    setMusicLabel(false);
+  }
+
+  function setMusicSource(src) {
+    if (!music || !src) return;
+    const wasPlaying = !music.paused;
+    music.pause();
+    music.currentTime = 0;
+    music.src = src;
+    if (wasPlaying) {
+      playMusic();
+    } else {
+      setMusicLabel(false);
+    }
   }
 
   if (musicBtn) {
@@ -71,6 +97,23 @@ document.addEventListener("DOMContentLoaded", () => {
         pauseMusic();
       }
     });
+  }
+
+  if (musicSelect && music) {
+    const initialOption = musicSelect.selectedOptions[0];
+    if (initialOption && initialOption.value) {
+      setMusicSource(initialOption.value);
+    }
+    setMusicLabel(false);
+
+    musicSelect.addEventListener("change", (event) => {
+      const selected = event.target.selectedOptions[0];
+      if (!selected) return;
+      setMusicSource(selected.value);
+      setMusicLabel(!music.paused);
+    });
+  } else {
+    setMusicLabel(false);
   }
 // ===== Since-counter =====
   const sinceCounters = document.querySelectorAll("[data-since-counter]");
