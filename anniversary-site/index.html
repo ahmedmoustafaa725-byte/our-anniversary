@@ -64,10 +64,19 @@
 
   <!-- Music control -->
   <div class="music-control">
-    <button class="music-btn paused" id="music-btn">
-      <div class="music-dot"></div>
-      <span id="music-label">Play our song</span>
-    </button>
+    <div class="music-picker">
+      <label for="music-select" class="music-select-label">Pick our song:</label>
+      <select id="music-select" class="music-select" aria-label="Select a song to play">
+        <option value="music/our_song.mp3" data-label="our song" selected>Our song</option>
+        <option value="music/kalam.mp3" data-label="Kalam">Kalam</option>
+        <option value="music/here-with-me.mp3" data-label="Here with me">Here with me</option>
+        <option value="music/baadem-alby.mp3" data-label="Baadem alby">Baadem alby</option>
+      </select>
+      <button class="music-btn paused" id="music-btn">
+        <div class="music-dot"></div>
+        <span id="music-label">Play our song</span>
+      </button>
+    </div>
   </div>
 
   <!-- Main content -->
@@ -501,7 +510,7 @@
                 
 
                 <div class="map-pin map-pin-1" data-place="first-meet">
-                  <div class="map-pin-label">Cilantro · Where we met</div>
+                  <div class="map-pin-label">Cilantro · Where we first met</div>
                 </div>
                 <div class="map-pin map-pin-2" data-place="first-trip">
                   <div class="map-pin-label">The Grand Egyptian Museum</div>
@@ -520,13 +529,13 @@
                     class="map-tab-btn active"
                     data-target="first-meet"
                   >
-                    Cilantro · Where we met
+                    Where we first met
                   </button>
                   <button class="map-tab-btn" data-target="first-trip">
-                    Our spot · District 5
+                    Our First Date
                   </button>
                   <button class="map-tab-btn" data-target="special-spot">
-                    Our favorite spot
+                    Our spot
                   </button>
                   <button class="map-tab-btn" data-target="future-dream">
                     Future dream · Munich
@@ -538,18 +547,24 @@
                   id="place-first-meet"
                 >
                   <strong>Cilantro Café, New Cairo.</strong>
-                  That cozy corner is our origin point—the spot where a random meet
-                  up turned into the sweetest constant in my life.
+                  That cozy corner is our origin point, the spot where i first met
+                  the most beutiful girl on earth for the first time (kont mmkn
+                  a2abelha martien bas kant ray7a el nadi m3 3eltha!!!!!!!!!!).
                 </div>
                 <div class="map-detail-card" id="place-first-trip">
                     <strong>The Grand Egyptian Museum.</strong>
-                  Wandering through history in Giza, sharing audioguide earbuds and
-                  inside jokes, and realizing adventures are better with you.
+                  The Museum was our first date. We wrote our own story in a place
+                  filled with seven thousand years of history.
+
+                  Every statue there has its own past, its own meaning, its own
+                  story. But ours is, and will always be, the one that matters more
+                  to me.
                 </div>
                 <div class="map-detail-card" id="place-special-spot">
                  <strong>District 5.</strong>
-                  Evening walks, favorite benches, and unhurried conversations that
-                  make this part of New Cairo feel like our own little world.
+                  Evening walks, favorite benches at the top, unhurried
+                  conversations and Gossips that make this part of Cairo is our own
+                  world.
                 </div>
                 <div class="map-detail-card" id="place-future-dream">
                   <strong>Munich, Germany.</strong>
@@ -575,31 +590,59 @@
               <div class="letter-header">My love,</div>
               <div class="letter-body">
                 <p>
-                  When I look back at this year, there’s one thing that keeps repeating
-                  in every memory: you.
+                  When I think about this year, I keep coming back to you. You are in
+                  all of it. The good days felt better because of you. The hard days
+                  felt lighter because I knew you were there, even from far away.
                 </p>
                 <p>
-                  You’re in the good days, turning them into something even better.
-                  You’re in the hard days, making them softer and less scary.
-                  You’re in the small moments — the “What are you doing?” texts, the
-                  sleepy calls, the late-night conversations — and somehow those
-                  became the most important ones.
+                  I think about the small things a lot. The what are you doing texts.
+                  The sleepy calls when your voice is soft. The late night talks when
+                  we both should sleep but we keep talking anyway. Those moments mean
+                  so much to me. They are the best part of my day.
                 </p>
                 <p>
-                  I love the way you laugh, the way you care, the way you get shy
-                  sometimes, the way you make fun of me when I deserve it, and the way
-                  you make me feel safe just by being there.
+                  I love your laugh. I love how you care about people. I love when you
+                  get shy. I love when you make fun of me when I deserve it. I love
+                  that I can be myself with you. You make me feel calm and sure.
                 </p>
                 <p>
-                  Thank you for choosing me. For staying. For loving me on the days
-                  when I’m not my best. For sharing your world with me. For being my
-                  home, even when we’re far away.
+                  This distance is not easy. Some days I miss you so much it hurts. I
+                  wish I could just hold you, see you, sit next to you in real life
+                  and not on a screen. But I know this is not forever. One day this
+                  distance will be gone. One day I will not have to count days or wait
+                  for flights. One day I will wake up and you will be there, not in my
+                  phone but in my arms.
                 </p>
                 <p>
-                  This is only our first anniversary. We still have so many memories to
-                  create, places to visit, stupid photos to take, and moments to live
-                  together. I don’t know exactly how the future looks — but I know I
-                  want you in it.
+                  Nothing will change my love for you. Not the miles. Not the time
+                  apart. Not bad days. Not stress. My love for you is not weak. It
+                  does not go away when things are hard. I chose you. I keep choosing
+                  you. I want to spend my life with you.
+                </p>
+                <p>
+                  The promises I wrote to you at the start of our relationship, I
+                  meant all of them. I still stand by every single one and I always
+                  will. The promise ring I gave you is not just a ring. For me it is a
+                  promise of our future. One day that promise ring will turn into a
+                  wedding ring.
+                </p>
+                <p>
+                  This is only our first anniversary. It is the start. We already have
+                  so many memories and we have not even lived in the same place yet.
+                  Calls, laughs, small fights, making up, sharing plans, talking about
+                  the future. If we can do all this with distance, I know we can do
+                  even more when we are finally together.
+                </p>
+                <p>
+                  We still have trips to take. Streets to walk. Food to try. Stupid
+                  photos to take where we look tired but happy. Normal days to live.
+                  Waking up together. Falling asleep together. A home that we share. A
+                  life that we build side by side.
+                </p>
+                <p>
+                  I do not know everything that will happen in the future. But I know
+                  what I want. I want you. I want us. I want this distance to end and
+                  for us to be together for the rest of our lives.
                 </p>
                 <p>
                   I love you. More than yesterday, less than tomorrow.
@@ -748,18 +791,21 @@
           </div>
         </section>
 
-        <section class="section-inner center-link">
-          <a href="gallery.html" class="btn-ghost">See more of our photos 📷</a>
-            <a href="love-words.html" class="btn-ghost">Read my love words 💌</a>
-          <p class="back-link"><a href="#chats">Back to Part 1 (our chats)</a></p>
-        </section>
       </div>
     </section>
 
     <footer>
-      Made with <span>love</span> for you.  
+      Made with <span>love</span> for you.
       One year down, forever to go. 💫
     </footer>
+
+    <div class="nav-buttons page-nav">
+    <a href="chat.html" class="nav-pill">To our Chats</a>
+    <a href="story.html" class="nav-pill">To our story</a>
+    <a href="gallery.html" class="nav-pill">To our gallery</a>
+    <a href="love-words.html" class="nav-pill">To our Love Tree</a>
+    <a href="my-future-plan.html" class="nav-pill">To our Future Plan</a>
+    </div>
   </main>
 
   <!-- Background music -->
