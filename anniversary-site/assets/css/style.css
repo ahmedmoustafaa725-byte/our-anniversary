@@ -726,6 +726,13 @@ header.hero {
   transform: translateY(-1px);
 }
 
+.nav-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
 .btn-small {
   padding: 7px 14px;
   font-size: 0.8rem;
