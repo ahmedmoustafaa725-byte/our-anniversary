@@ -160,32 +160,32 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===== Since-counter =====
   const sinceCounters = document.querySelectorAll("[data-since-counter]");
   const DEFAULT_START = "2024-12-05T00:00:00+02:00";
-  const EGYPT_TIMEZONE = "Africa/Cairo";
-  const ONE_HOUR_MS = 60 * 60 * 1000;
+  const EGYPT_OFFSET_MINUTES = 120; // UTC+02:00
 
-  function getEgyptTime() {
-    // Convert "now" into Cairo wall time, then apply the requested one-hour back offset.
-    const cairoString = new Date().toLocaleString("en-US", { timeZone: EGYPT_TIMEZONE });
-    const cairoDate = new Date(cairoString);
-    return new Date(cairoDate.getTime() - ONE_HOUR_MS);
+  function toEgyptDate(dateLike) {
+    const date = dateLike instanceof Date ? dateLike : new Date(dateLike);
+    if (Number.isNaN(date.getTime())) return null;
+    const utcMs = date.getTime();
+    return new Date(utcMs + EGYPT_OFFSET_MINUTES * 60000);
   }
 
   function parseEgyptDate(value) {
     if (!value) return null;
-    const parsed = new Date(value);
-    return Number.isNaN(parsed.getTime()) ? null : parsed;
+    return toEgyptDate(value);
   }
 
   function calculateDuration(startDate) {
-    const now = getEgyptTime();
+    const now = toEgyptDate(Date.now());
 
-    let years = now.getFullYear() - startDate.getFullYear();
-    let months = now.getMonth() - startDate.getMonth();
-    let days = now.getDate() - startDate.getDate();
+    if (!now || !startDate) return null;
+
+    let years = now.getUTCFullYear() - startDate.getUTCFullYear();
+    let months = now.getUTCMonth() - startDate.getUTCMonth();
+    let days = now.getUTCDate() - startDate.getUTCDate();
 
     if (days < 0) {
-      const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-      days += prevMonth.getDate();
+      const prevMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 0));
+      days += prevMonth.getUTCDate();
       months -= 1;
     }
 
@@ -195,9 +195,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const anchor = new Date(startDate);
-    anchor.setFullYear(startDate.getFullYear() + years);
-    anchor.setMonth(startDate.getMonth() + months);
-    anchor.setDate(startDate.getDate() + days);
+    anchor.setUTCFullYear(startDate.getUTCFullYear() + years);
+    anchor.setUTCMonth(startDate.getUTCMonth() + months);
+    anchor.setUTCDate(startDate.getUTCDate() + days);
 
     const remainingMs = Math.max(0, now.getTime() - anchor.getTime());
     const hours = Math.floor(remainingMs / 3600000);
@@ -214,6 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!startDate || Number.isNaN(startDate.getTime())) return;
 
       const parts = calculateDuration(startDate);
+      if (!parts) return;
       const mappings = {
         "[data-counter-years]": parts.years,
         "[data-counter-months]": parts.months,
@@ -651,85 +652,8 @@ function initChatSequence(options) {
   }
    // ===== Gallery page enhancements =====
   const galleryGrid = document.querySelector("[data-gallery-grid]");
- 
 
   if (galleryGrid) {
-    const featuredMemories = [
-      {
-        src: "images/first-picture.jpg",
-        title: "Our first picture",
-        alt: "Our first picture together",
-      },
-      {
-        src: "images/first-date.jpg",
-        title: "Our first date picture",
-        alt: "Our first date picture",
-      },
-      {
-        src: "images/cutest-you.jpg",
-        title: "The cutest picture of you",
-        alt: "The cutest picture of you",
-      },
-      {
-        src: "images/favorite-us.jpg",
-        title: "The picture of us I love the most",
-        alt: "My favourite picture of us",
-      },
-      {
-        src: "images/first-chat.jpg",
-        title: "Our first chat",
-        alt: "Screenshot of our first chat",
-      },
-      {
-        src: "images/chat-begin.jpg",
-        title: "Where it all began",
-        alt: "Screenshot of the chat that started us",
-      },
-      {
-        src: "images/chat-changed-my-life.png",
-        title: "The chat that changed my life",
-        alt: "The conversation that changed everything",
-      },
-    ];
-
-    const extraPhotos = [
-      "IMG-20251016-WA0034.jpg",
-      "IMG-20251016-WA0036.jpg",
-      "IMG-20251123-WA0029.jpg",
-      "IMG-20251123-WA0030.jpg",
-      "IMG-20251123-WA0031.jpg",
-      "IMG-20251123-WA0032.jpg",
-      "IMG-20251123-WA0033.jpg",
-      "IMG-20251123-WA0034.jpg",
-      "IMG-20251123-WA0035.jpg",
-      "IMG-20251123-WA0036.jpg",
-      "IMG-20251123-WA0037.jpg",
-      "IMG-20251123-WA0038.jpg",
-      "IMG-20251123-WA0039.jpg",
-      "IMG-20251123-WA0040.jpg",
-      "IMG-20251123-WA0041.jpg",
-      "IMG-20251123-WA0042.jpg",
-      "IMG-20251123-WA0043.jpg",
-      "IMG-20251123-WA0044.jpg",
-      "IMG-20251123-WA0045.jpg",
-      "IMG-20251123-WA0046.jpg",
-      "IMG-20251123-WA0047.jpg",
-      "IMG-20251123-WA0048.jpg",
-      "IMG-20251123-WA0049.jpg",
-      "IMG-20251123-WA0050.jpg",
-      "IMG-20251123-WA0051.jpg",
-    ];
-
-    const galleryItems = [
-      ...featuredMemories,
-      ...extraPhotos.map((file) => ({
-        src: `images/${file}`,
-        alt: "One of our favorite memories",
-      })),
-    ];
-
-
-
     function buildGalleryCard(item) {
       const article = document.createElement("article");
       article.className = "gallery-card";
@@ -745,23 +669,46 @@ function initChatSequence(options) {
 
       const img = document.createElement("img");
       img.src = item.src;
-      img.alt = item.alt || item.title || "A favorite memory";
+      img.alt = item.title || "";
       wrap.appendChild(img);
 
       article.appendChild(wrap);
       return article;
     }
 
-    function renderGallery() {
+    function renderGallery(items) {
       galleryGrid.innerHTML = "";
-      galleryItems.forEach((item) => {
+      items.forEach((item) => {
         galleryGrid.appendChild(buildGalleryCard(item));
       });
     }
 
-    renderGallery();
-    
+    async function loadGalleryItems() {
+      const placeholder = document.createElement("p");
+      placeholder.className = "section-sub";
+      placeholder.textContent = "Loading every photo for us...";
+      galleryGrid.appendChild(placeholder);
 
+      try {
+        const response = await fetch("assets/data/gallery-images.json", { cache: "no-cache" });
+        if (!response.ok) {
+          throw new Error(`Gallery list failed: ${response.status}`);
+        }
+
+        const galleryItems = await response.json();
+        renderGallery(Array.isArray(galleryItems) ? galleryItems : []);
+      } catch (error) {
+        galleryGrid.innerHTML = "";
+        const errorNote = document.createElement("p");
+        errorNote.className = "section-sub";
+        errorNote.textContent =
+          "Couldn't load our gallery right now, but the photos are safe. Please refresh to try again.";
+        galleryGrid.appendChild(errorNote);
+        console.error(error);
+      }
+    }
+
+    loadGalleryItems();
   }
 
   // ===== Page navigation highlighting =====
